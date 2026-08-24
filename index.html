@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#e2e8f0"
+    media="(prefers-color-scheme: light)"
+  >
+  <meta
+    name="theme-color"
+    content="#020617"
+    media="(prefers-color-scheme: dark)"
+  >
+
   <title>Daily Motivation</title>
-  
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -16,101 +31,205 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Vazirmatn:wght@400;700;900&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
     :root {
-      --bg-radial: radial-gradient(circle at 50% 10%, #e2e8f0 0%, #cbd5e1 100%);
+      --bg-radial:
+        radial-gradient(
+          circle at 50% 10%,
+          #e2e8f0 0%,
+          #cbd5e1 100%
+        );
+
       --glow-1: rgba(99, 102, 241, 0.15);
       --glow-2: rgba(168, 85, 247, 0.15);
+
       --card-bg: rgba(255, 255, 255, 0.65);
-      --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+
+      --card-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --btn-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+
+      --btn-gradient:
+        linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+
       --btn-glow: rgba(139, 92, 246, 0.5);
       --btn-text: #ffffff;
+
       --icon-bg: rgba(255, 255, 255, 0.8);
       --icon-color: #0f172a;
+
       --selection-bg: #8b5cf6;
       --selection-color: #ffffff;
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
     }
 
     .dark-mode {
-      --bg-radial: radial-gradient(circle at 50% 10%, #0f172a 0%, #020617 100%);
+      --bg-radial:
+        radial-gradient(
+          circle at 50% 10%,
+          #0f172a 0%,
+          #020617 100%
+        );
+
       --glow-1: rgba(99, 102, 241, 0.25);
       --glow-2: rgba(168, 85, 247, 0.25);
+
       --card-bg: rgba(15, 23, 42, 0.65);
-      --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+
+      --card-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --btn-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #e879f9 100%);
+
+      --btn-gradient:
+        linear-gradient(
+          135deg,
+          #818cf8 0%,
+          #c084fc 50%,
+          #e879f9 100%
+        );
+
       --btn-glow: rgba(192, 132, 252, 0.5);
       --btn-text: #0f172a;
+
       --icon-bg: rgba(30, 41, 59, 0.8);
       --icon-color: #f8fafc;
+
       --selection-bg: #c084fc;
       --selection-color: #0f172a;
     }
 
-    /* Custom Selection Styles */
+    /* ---------------------------------------------------------
+       RESET
+    --------------------------------------------------------- */
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      min-height: 100%;
+      background: #cbd5e1;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      padding:
+        calc(20px + var(--safe-top))
+        calc(16px + var(--safe-right))
+        calc(20px + var(--safe-bottom))
+        calc(16px + var(--safe-left));
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      position: relative;
+      isolation: isolate;
+
+      background: var(--bg-radial);
+      color: var(--text-main);
+
+      font-family: "Plus Jakarta Sans", sans-serif;
+
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      transition:
+        background 0.6s ease,
+        color 0.6s ease;
+    }
+
     ::selection {
       background-color: var(--selection-bg);
       color: var(--selection-color);
     }
+
     ::-moz-selection {
       background-color: var(--selection-bg);
       color: var(--selection-color);
     }
 
-    * {
-      box-sizing: border-box;
-      cursor: none !important; /* Hide default mouse cursor */
+    button {
+      font: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg-radial);
-      color: var(--text-main);
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: background 0.6s ease, color 0.6s ease;
-      overflow: hidden;
-      position: relative;
+    button:focus-visible {
+      outline: 3px solid rgba(139, 92, 246, 0.45);
+      outline-offset: 4px;
     }
 
-    /* Custom Cursor Elements */
-    .custom-cursor-dot {
+    /* ---------------------------------------------------------
+       CUSTOM CURSOR
+       Desktop only
+    --------------------------------------------------------- */
+
+    .custom-cursor-dot,
+    .custom-cursor-ring {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    .custom-cursor-dot {
       width: 8px;
       height: 8px;
       background-color: var(--selection-bg);
       border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, background-color 0.3s;
+
+      transition:
+        width 0.2s,
+        height 0.2s,
+        background-color 0.3s;
     }
 
     .custom-cursor-ring {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 36px;
       height: 36px;
       border: 2px solid var(--selection-bg);
       border-radius: 50%;
-      pointer-events: none;
       z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.15s ease-out, width 0.2s, height 0.2s, border-color 0.3s;
       opacity: 0.6;
+
+      transition:
+        transform 0.15s ease-out,
+        width 0.2s,
+        height 0.2s,
+        border-color 0.3s;
     }
 
     body.hovering .custom-cursor-ring {
@@ -125,92 +244,167 @@
       height: 12px;
     }
 
-    /* Ambient Glowing Background Orbs */
+    /* ---------------------------------------------------------
+       BACKGROUND ORBS
+    --------------------------------------------------------- */
+
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
-      z-index: 0;
       pointer-events: none;
+      z-index: -2;
+      filter: blur(80px);
       transition: background 0.6s ease;
     }
+
     .orb-1 {
       width: 350px;
       height: 350px;
-      background: var(--glow-1);
       top: 15%;
       left: 20%;
+      background: var(--glow-1);
     }
+
     .orb-2 {
       width: 400px;
       height: 400px;
-      background: var(--glow-2);
-      bottom: 15%;
       right: 20%;
+      bottom: 15%;
+      background: var(--glow-2);
     }
 
-    /* Particle Canvas */
+    /* ---------------------------------------------------------
+       PARTICLE CANVAS
+    --------------------------------------------------------- */
+
     #canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: fixed;
+      inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ---------------------------------------------------------
+       TOP CONTROLS
+    --------------------------------------------------------- */
+
+    .top-controls {
+      position: absolute;
+      top: calc(16px + var(--safe-top));
+      right: calc(16px + var(--safe-right));
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      z-index: 20;
+    }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 0;
+      border-radius: 50%;
+
+      background: var(--icon-bg);
+      color: var(--icon-color);
+
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.05);
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      cursor: pointer;
+
+      transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .icon-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .icon-btn:active {
+      transform: scale(0.94);
+    }
+
+    /* ---------------------------------------------------------
+       MAIN CONTENT
+    --------------------------------------------------------- */
+
+    .content {
+      width: 100%;
+      max-width: 760px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      gap: 0;
+
       z-index: 10;
     }
 
-    /* Glass Container */
+    /* ---------------------------------------------------------
+       QUOTE CARD
+    --------------------------------------------------------- */
+
     .quote-card {
-      position: relative;
-      z-index: 1;
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: var(--card-shadow);
-      border-radius: 28px;
-      padding: 48px;
-      max-width: 640px;
-      width: 90%;
-      text-align: center;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.5s ease, box-shadow 0.5s ease;
+      width: min(640px, 100%);
+
+      padding: clamp(24px, 6vw, 48px);
+
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      align-items: stretch;
+
+      gap: clamp(18px, 3vw, 24px);
+
+      text-align: center;
+
+      background: var(--card-bg);
+
+      border-radius: clamp(20px, 5vw, 28px);
+
+      box-shadow: var(--card-shadow);
+
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      transition:
+        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background 0.5s ease,
+        box-shadow 0.5s ease;
     }
 
-    .quote-card:hover {
-      transform: translateY(-6px);
+    @media (hover: hover) and (pointer: fine) {
+      .quote-card:hover {
+        transform: translateY(-6px);
+      }
     }
 
-    /* Typography */
-    #english {
-      font-size: 24px;
-      font-weight: 800;
-      line-height: 1.5;
-      letter-spacing: -0.02em;
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #persian {
-      font-family: 'Vazirmatn', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1.7;
-      direction: rtl;
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    /* ---------------------------------------------------------
+       QUOTE TYPOGRAPHY
+    --------------------------------------------------------- */
 
     .quote {
       opacity: 0;
       transform: translateY(12px) scale(0.98);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+
+      transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
     }
 
     .quote.show {
@@ -218,301 +412,862 @@
       transform: translateY(0) scale(1);
     }
 
+    #english {
+      min-height: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--text-main);
+
+      font-size: clamp(20px, 4vw, 24px);
+      font-weight: 800;
+
+      line-height: 1.55;
+      letter-spacing: -0.02em;
+
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    #persian {
+      min-height: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      direction: rtl;
+      text-align: center;
+
+      color: var(--text-main);
+
+      font-family: "Vazirmatn", sans-serif;
+      font-size: clamp(20px, 4vw, 24px);
+      font-weight: 700;
+
+      line-height: 1.8;
+
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
     .divider {
+      width: 42%;
+      max-width: 220px;
       height: 1px;
+
+      margin: 0 auto;
+
       background: var(--text-muted);
       opacity: 0.2;
-      width: 40%;
-      margin: 0 auto;
+
+      flex-shrink: 0;
     }
 
-    /* Top Utility Bar (Theme Toggle Only) */
-    .top-controls {
-      position: absolute;
-      top: 28px;
-      right: 28px;
-      display: flex;
-      gap: 12px;
-      z-index: 2;
-    }
+    /* ---------------------------------------------------------
+       BUTTON
+    --------------------------------------------------------- */
 
-    .icon-btn {
-      background: var(--icon-bg);
-      border: none;
-      color: var(--icon-color);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      font-size: 18px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(8px);
-    }
-
-    .icon-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* Primary Action Controls */
     .controls {
+      width: 100%;
+
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 36px;
-      z-index: 1;
+
+      margin-top: clamp(20px, 5vw, 36px);
+
+      z-index: 10;
     }
 
-    /* Enhanced Interactive Button */
     .change-button {
       position: relative;
-      padding: 18px 42px;
-      background: var(--btn-gradient);
-      background-size: 200% auto;
-      color: var(--btn-text);
+
+      width: min(100%, 300px);
+      min-height: 56px;
+
+      padding: 15px 24px;
+
       border: none;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px var(--btn-glow);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      overflow: hidden;
-      outline: none;
-    }
+      border-radius: 18px;
 
-    /* Glowing border ring effect */
-    .change-button::before {
-      content: '';
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
       background: var(--btn-gradient);
       background-size: 200% auto;
-      border-radius: 22px;
-      z-index: -1;
-      filter: blur(8px);
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
+
+      color: var(--btn-text);
+
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+
+      box-shadow:
+        0 10px 30px var(--btn-glow);
+
+      cursor: pointer;
+
+      overflow: hidden;
+      isolation: isolate;
+
+      outline: none;
+
+      transition:
+        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.3s ease,
+        background-position 0.4s ease;
     }
 
-    /* Shimmer animation bar */
-    .change-button::after {
-      content: '';
+    .change-button::before {
+      content: "";
+
       position: absolute;
+      inset: -2px;
+
+      border-radius: 20px;
+
+      background: var(--btn-gradient);
+      background-size: 200% auto;
+
+      z-index: -2;
+
+      filter: blur(8px);
+
+      opacity: 0.7;
+
+      transition:
+        opacity 0.3s ease,
+        background-position 0.4s ease;
+    }
+
+    .change-button::after {
+      content: "";
+
+      position: absolute;
+
       top: -50%;
       left: -50%;
+
       width: 200%;
       height: 200%;
-      background: linear-gradient(
-        60deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.35) 50%,
-        transparent 70%
-      );
+
+      background:
+        linear-gradient(
+          60deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.35) 50%,
+          transparent 70%
+        );
+
       transform: rotate(30deg) translateX(-100%);
+
       transition: transform 0.8s ease;
+
+      pointer-events: none;
     }
 
-    .change-button:hover {
-      transform: translateY(-4px) scale(1.04);
-      background-position: right center;
-      box-shadow: 0 15px 35px var(--btn-glow);
-    }
+    @media (hover: hover) and (pointer: fine) {
+      .change-button:hover {
+        transform: translateY(-4px) scale(1.03);
+        background-position: right center;
 
-    .change-button:hover::before {
-      opacity: 1;
-      background-position: right center;
-    }
+        box-shadow:
+          0 15px 35px var(--btn-glow);
+      }
 
-    .change-button:hover::after {
-      transform: rotate(30deg) translateX(100%);
+      .change-button:hover::before {
+        opacity: 1;
+        background-position: right center;
+      }
+
+      .change-button:hover::after {
+        transform: rotate(30deg) translateX(100%);
+      }
     }
 
     .change-button:active {
       transform: translateY(2px) scale(0.97);
-      box-shadow: 0 5px 15px var(--btn-glow);
+
+      box-shadow:
+        0 5px 15px var(--btn-glow);
     }
 
+    /* ---------------------------------------------------------
+       HINT
+    --------------------------------------------------------- */
+
     .hint {
-      position: absolute;
-      bottom: 20px;
-      font-size: 12px;
+      position: fixed;
+
+      left: 50%;
+      bottom: calc(12px + var(--safe-bottom));
+
+      transform: translateX(-50%);
+
+      width: calc(100% - 32px);
+
+      text-align: center;
+
       color: var(--text-muted);
-      letter-spacing: 0.05em;
+
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      opacity: 0.7;
+
+      opacity: 0.65;
+
       user-select: none;
+      pointer-events: none;
+    }
+
+    /* ---------------------------------------------------------
+       TABLETS
+    --------------------------------------------------------- */
+
+    @media (min-width: 600px) {
+      body {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .top-controls {
+        top: calc(24px + var(--safe-top));
+        right: calc(24px + var(--safe-right));
+      }
+
+      .hint {
+        bottom: calc(18px + var(--safe-bottom));
+        font-size: 12px;
+      }
+    }
+
+    /* ---------------------------------------------------------
+       DESKTOP
+    --------------------------------------------------------- */
+
+    @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+      body {
+        overflow: hidden;
+        cursor: none;
+      }
+
+      button,
+      .interactive {
+        cursor: none;
+      }
+
+      .custom-cursor-dot,
+      .custom-cursor-ring {
+        display: block;
+      }
+    }
+
+    /* ---------------------------------------------------------
+       MOBILE
+    --------------------------------------------------------- */
+
+    @media (max-width: 599px) {
+      body {
+        justify-content: center;
+      }
+
+      .orb {
+        filter: blur(60px);
+      }
+
+      .orb-1 {
+        width: 220px;
+        height: 220px;
+        top: 5%;
+        left: -10%;
+      }
+
+      .orb-2 {
+        width: 240px;
+        height: 240px;
+        right: -10%;
+        bottom: 8%;
+      }
+
+      .quote-card {
+        padding:
+          clamp(22px, 6vw, 32px)
+          clamp(18px, 6vw, 28px);
+      }
+
+      .change-button {
+        width: 100%;
+        max-width: 100%;
+        min-height: 58px;
+        border-radius: 17px;
+      }
+
+      .hint {
+        font-size: 9px;
+        letter-spacing: 0.06em;
+      }
+    }
+
+    /* ---------------------------------------------------------
+       VERY SMALL PHONES
+    --------------------------------------------------------- */
+
+    @media (max-width: 380px) {
+      body {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .top-controls {
+        top: calc(12px + var(--safe-top));
+        right: calc(12px + var(--safe-right));
+      }
+
+      .icon-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+      }
+
+      #english,
+      #persian {
+        font-size: 18px;
+      }
+
+      .quote-card {
+        padding: 20px 16px;
+        gap: 16px;
+      }
+
+      .controls {
+        margin-top: 16px;
+      }
+
+      .change-button {
+        min-height: 54px;
+        font-size: 14px;
+      }
+    }
+
+    /* ---------------------------------------------------------
+       REDUCED MOTION / PERFORMANCE
+    --------------------------------------------------------- */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+
+      .orb {
+        filter: blur(40px);
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Custom Cursor -->
+  <!-- Custom Cursor - desktop only -->
   <div class="custom-cursor-dot" id="cursor-dot"></div>
   <div class="custom-cursor-ring" id="cursor-ring"></div>
 
+  <!-- Ambient background -->
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
-  <canvas id="canvas"></canvas>
 
+  <!-- Particle layer -->
+  <canvas id="canvas" aria-hidden="true"></canvas>
+
+  <!-- Theme -->
   <div class="top-controls">
-    <button class="icon-btn interactive" onclick="toggleTheme()" title="Toggle Theme" id="theme-btn">🌓</button>
+    <button
+      type="button"
+      class="icon-btn interactive"
+      onclick="toggleTheme()"
+      title="Toggle Theme"
+      aria-label="Toggle theme"
+      id="theme-btn"
+    >
+      🌓
+    </button>
   </div>
 
-  <div class="quote-card">
-    <div id="english" class="quote"></div>
-    <div class="divider"></div>
-    <div id="persian" class="quote"></div>
-  </div>
+  <main class="content">
 
-  <div class="controls">
-    <button class="change-button interactive" id="main-btn" onclick="changeQuotes(event)">Get Inspired ✨</button>
-  </div>
+    <section class="quote-card" aria-live="polite">
+      <div id="english" class="quote"></div>
 
-  <div class="hint">Press Spacebar to Generate</div>
+      <div class="divider"></div>
+
+      <div id="persian" class="quote"></div>
+    </section>
+
+    <div class="controls">
+      <button
+        type="button"
+        class="change-button interactive"
+        id="main-btn"
+        onclick="changeQuotes(event)"
+      >
+        Get Inspired ✨
+      </button>
+    </div>
+
+  </main>
+
+  <div class="hint">
+    <span class="desktop-hint">Press Spacebar to Generate</span>
+    <span class="mobile-hint">Tap the button for inspiration</span>
+  </div>
 
   <script>
-    // Paired bilingual quotes
+    /* ---------------------------------------------------------
+       QUOTES
+    --------------------------------------------------------- */
+
     const quotes = [
-      { en: "Believe in yourself—you're unstoppable.", fa: "خودت را باور داشته باش—تو توقف‌ناپذیری." },
-      { en: "Dream big, start small, act now!", fa: "بزرگ فکر کن، کوچک شروع کن، همین حالا اقدام کن!" },
-      { en: "Your only limit is your imagination.", fa: "تنها حد تو تخیلات توست." },
-      { en: "Success begins with a single step.", fa: "موفقیت با یک قدم ساده شروع می‌شود." },
-      { en: "The future belongs to those who work for it.", fa: "آینده متعلق به کسانی است که برای آن تلاش می‌کنند." },
-      { en: "Every failure is a step toward success.", fa: "هر شکست یک قدم به سوی موفقیت است." },
-      { en: "You are your greatest investment.", fa: "خودت بزرگ‌ترین سرمایه‌گذاری‌ات هستی." },
-      { en: "Stay focused; stay determined.", fa: "متمرکز بمان؛ مصمم بمان." },
-      { en: "Rise above your doubts and soar.", fa: "شک و تردیدهای خود را پشت سر بگذار و اوج بگیر." },
-      { en: "Turn obstacles into opportunities.", fa: "هر مانع را به یک فرصت تبدیل کن." },
-      { en: "Effort beats talent when talent doesn't work hard.", fa: "تلاش، استعداد را شکست می‌دهد وقتی که استعداد تلاش نمی‌کند." },
-      { en: "Your mindset shapes your reality.", fa: "ذهنیت تو واقعیتت را می‌سازد." },
-      { en: "Small steps lead to big changes.", fa: "گام‌های کوچک منجر به تغییرات بزرگ می‌شوند." },
-      { en: "Persistence is key.", fa: "پایداری کلید موفقیت است." },
-      { en: "Action conquers fear.", fa: "عمل کردن بر ترس غالب می‌شود." },
-      { en: "Conquer your mind and you'll conquer the world.", fa: "ذهن خود را تسخیر کن تا جهان را تسخیر کنی." },
-      { en: "Pursue excellence, not perfection.", fa: "عالی بودن را دنبال کن، نه کامل بودن را." },
-      { en: "Hard work beats excuses.", fa: "کار سخت بهانه‌ها را شکست می‌دهد." },
-      { en: "Life is 10% what happens and 90% how you respond.", fa: "زندگی ۱۰٪ اتفاقات است و ۹۰٪ واکنش تو." },
-      { en: "Focus on progress, not perfection.", fa: "روی پیشرفت تمرکز کن، نه بر کمال." },
-      { en: "Don't count the days, make the days count.", fa: "روزها را نشمار، کاری کن که روزها به حساب بیایند." },
-      { en: "Doubt kills more dreams than failure ever will.", fa: "شک بیش از هر شکستی رویاها را می‌کشد." },
-      { en: "Everything you’ve ever wanted is on the other side of fear.", fa: "هر آنچه تاکنون خواسته‌ای در آن سوی ترس قرار دارد." },
-      { en: "Believe you can and you're halfway there.", fa: "باور داشته باش که می‌توانی، نیمی از راه را رفته‌ای." },
-      { en: "Your time is limited, don't waste it living someone else's life.", fa: "زمان تو محدود است، آن را با زندگی به سبک دیگران هدر نده." },
-      { en: "Do what you can, with what you have, where you are.", fa: "هر کاری می‌توانی انجام بده، با هر چه داری، در هر کجا که هستی." },
-      { en: "Keep your face always toward the sunshine and shadows will fall behind you.", fa: "همیشه رو به خورشید بایست تا سایه‌ها پشت سرت بیفتند." },
-      { en: "It always seems impossible until it’s done.", fa: "همیشه تا زمانی که کاری انجام نشده، غیرممکن به نظر می‌رسد." },
-      { en: "Turn your wounds into wisdom.", fa: "زخم‌هایت را به حکمت تبدیل کن." },
-      { en: "Happiness depends upon ourselves.", fa: "خوشبختی به خود ما بستگی دارد." },
-      { en: "Change the world by being yourself.", fa: "با خود واقعی‌ات بودن، جهان را تغییر بده." },
-      { en: "Never regret anything that made you smile.", fa: "هرگز از چیزی که لبخند به لبانت آورده پشیمان نشو." },
-      { en: "Die with memories, not dreams.", fa: "با خاطرات بمیر، نه با رویاها." },
-      { en: "Aspire to inspire before we expire.", fa: "تلاش کن تا قبل از پایان زندگی، الهام‌بخش باشی." },
-      { en: "Simplicity is the ultimate sophistication.", fa: "سادگی، نهایت هوشمندی و ظرافت است." },
-      { en: "Whatever you are, be a good one.", fa: "هر چه هستی، یک فرد خوب باش." },
-      { en: "To live will be an awfully big adventure.", fa: "زندگی کردن یک ماجراجویی بسیار بزرگ خواهد بود." },
-      { en: "Try to be a rainbow in someone's cloud.", fa: "سعی کن رنگین‌کمانی در ابرهای زندگی کسی باشی." },
-      { en: "Do one thing every day that scares you.", fa: "هر روز کاری انجام بده که تو را می‌ترساند." },
-      { en: "Seize common occasions and make them great.", fa: "فرصت‌های عادی را بگیر و آنها را بزرگ کن." },
-      { en: "Energy flows where attention goes.", fa: "انرژی به جایی می‌رود که توجه به آن معطوف است." },
-      { en: "Little by little, one travels far.", fa: "کم‌کم و قدم به قدم، می‌توان مسیرهای طولانی را پیمود." },
-      { en: "You don't have to be great to start, but you have to start to be great.", fa: "لازم نیست عالی باشی تا شروع کنی، اما باید شروع کنی تا عالی شوی." },
-      { en: "Be the change that you wish to see in the world.", fa: "همان تغییری باش که می‌خواهی در جهان ببینی." },
-      { en: "What we think, we become.", fa: "ما همان چیزی می‌شویم که به آن می‌اندیشیم." },
-      { en: "Tough times never last, but tough people do.", fa: "روزهای سخت هرگز پایدار نمی‌مانند، اما انسان‌های سخت چرا." },
-      { en: "Failure is not the opposite of success; it's part of success.", fa: "شکست نقطه مقابل موفقیت نیست؛ بلکه بخشی از آن است." },
-      { en: "If you want to lift yourself up, lift up someone else.", fa: "اگر می‌خواهی خودت را بالا بکشی، فرد دیگری را بالا بکش." },
-      { en: "Every moment is a fresh beginning.", fa: "هر لحظه یک شروع تازه است." },
-      { en: "Light tomorrow with today.", fa: "فردا را با امروز روشن کن." }
+      {
+        en: "Believe in yourself—you're unstoppable.",
+        fa: "خودت را باور داشته باش—تو توقف‌ناپذیری."
+      },
+      {
+        en: "Dream big, start small, act now!",
+        fa: "بزرگ فکر کن، کوچک شروع کن، همین حالا اقدام کن!"
+      },
+      {
+        en: "Your only limit is your imagination.",
+        fa: "تنها حد تو تخیلات توست."
+      },
+      {
+        en: "Success begins with a single step.",
+        fa: "موفقیت با یک قدم ساده شروع می‌شود."
+      },
+      {
+        en: "The future belongs to those who work for it.",
+        fa: "آینده متعلق به کسانی است که برای آن تلاش می‌کنند."
+      },
+      {
+        en: "Every failure is a step toward success.",
+        fa: "هر شکست یک قدم به سوی موفقیت است."
+      },
+      {
+        en: "You are your greatest investment.",
+        fa: "خودت بزرگ‌ترین سرمایه‌گذاری‌ات هستی."
+      },
+      {
+        en: "Stay focused; stay determined.",
+        fa: "متمرکز بمان؛ مصمم بمان."
+      },
+      {
+        en: "Rise above your doubts and soar.",
+        fa: "شک و تردیدهای خود را پشت سر بگذار و اوج بگیر."
+      },
+      {
+        en: "Turn obstacles into opportunities.",
+        fa: "هر مانع را به یک فرصت تبدیل کن."
+      },
+      {
+        en: "Effort beats talent when talent doesn't work hard.",
+        fa: "تلاش، استعداد را شکست می‌دهد وقتی که استعداد تلاش نمی‌کند."
+      },
+      {
+        en: "Your mindset shapes your reality.",
+        fa: "ذهنیت تو واقعیتت را می‌سازد."
+      },
+      {
+        en: "Small steps lead to big changes.",
+        fa: "گام‌های کوچک منجر به تغییرات بزرگ می‌شوند."
+      },
+      {
+        en: "Persistence is key.",
+        fa: "پایداری کلید موفقیت است."
+      },
+      {
+        en: "Action conquers fear.",
+        fa: "عمل کردن بر ترس غالب می‌شود."
+      },
+      {
+        en: "Conquer your mind and you'll conquer the world.",
+        fa: "ذهن خود را تسخیر کن تا جهان را تسخیر کنی."
+      },
+      {
+        en: "Pursue excellence, not perfection.",
+        fa: "عالی بودن را دنبال کن، نه کامل بودن را."
+      },
+      {
+        en: "Hard work beats excuses.",
+        fa: "کار سخت بهانه‌ها را شکست می‌دهد."
+      },
+      {
+        en: "Life is 10% what happens and 90% how you respond.",
+        fa: "زندگی ۱۰٪ اتفاقات است و ۹۰٪ واکنش تو."
+      },
+      {
+        en: "Focus on progress, not perfection.",
+        fa: "روی پیشرفت تمرکز کن، نه بر کمال."
+      },
+      {
+        en: "Don't count the days, make the days count.",
+        fa: "روزها را نشمار، کاری کن که روزها به حساب بیایند."
+      },
+      {
+        en: "Doubt kills more dreams than failure ever will.",
+        fa: "شک بیش از هر شکستی رویاها را می‌کشد."
+      },
+      {
+        en: "Everything you’ve ever wanted is on the other side of fear.",
+        fa: "هر آنچه تاکنون خواسته‌ای در آن سوی ترس قرار دارد."
+      },
+      {
+        en: "Believe you can and you're halfway there.",
+        fa: "باور داشته باش که می‌توانی، نیمی از راه را رفته‌ای."
+      },
+      {
+        en: "Your time is limited, don't waste it living someone else's life.",
+        fa: "زمان تو محدود است، آن را با زندگی به سبک دیگران هدر نده."
+      },
+      {
+        en: "Do what you can, with what you have, where you are.",
+        fa: "هر کاری می‌توانی انجام بده، با هر چه داری، در هر کجا که هستی."
+      },
+      {
+        en: "Keep your face always toward the sunshine and shadows will fall behind you.",
+        fa: "همیشه رو به خورشید بایست تا سایه‌ها پشت سرت بیفتند."
+      },
+      {
+        en: "It always seems impossible until it’s done.",
+        fa: "همیشه تا زمانی که کاری انجام نشده، غیرممکن به نظر می‌رسد."
+      },
+      {
+        en: "Turn your wounds into wisdom.",
+        fa: "زخم‌هایت را به حکمت تبدیل کن."
+      },
+      {
+        en: "Happiness depends upon ourselves.",
+        fa: "خوشبختی به خود ما بستگی دارد."
+      },
+      {
+        en: "Change the world by being yourself.",
+        fa: "با خود واقعی‌ات بودن، جهان را تغییر بده."
+      },
+      {
+        en: "Never regret anything that made you smile.",
+        fa: "هرگز از چیزی که لبخند به لبانت آورده پشیمان نشو."
+      },
+      {
+        en: "Die with memories, not dreams.",
+        fa: "با خاطرات بمیر، نه با رویاها."
+      },
+      {
+        en: "Aspire to inspire before we expire.",
+        fa: "تلاش کن تا قبل از پایان زندگی، الهام‌بخش باشی."
+      },
+      {
+        en: "Simplicity is the ultimate sophistication.",
+        fa: "سادگی، نهایت هوشمندی و ظرافت است."
+      },
+      {
+        en: "Whatever you are, be a good one.",
+        fa: "هر چه هستی، یک فرد خوب باش."
+      },
+      {
+        en: "To live will be an awfully big adventure.",
+        fa: "زندگی کردن یک ماجراجویی بسیار بزرگ خواهد بود."
+      },
+      {
+        en: "Try to be a rainbow in someone's cloud.",
+        fa: "سعی کن رنگین‌کمانی در ابرهای زندگی کسی باشی."
+      },
+      {
+        en: "Do one thing every day that scares you.",
+        fa: "هر روز کاری انجام بده که تو را می‌ترساند."
+      },
+      {
+        en: "Seize common occasions and make them great.",
+        fa: "فرصت‌های عادی را بگیر و آنها را بزرگ کن."
+      },
+      {
+        en: "Energy flows where attention goes.",
+        fa: "انرژی به جایی می‌رود که توجه به آن معطوف است."
+      },
+      {
+        en: "Little by little, one travels far.",
+        fa: "کم‌کم و قدم به قدم، می‌توان مسیرهای طولانی را پیمود."
+      },
+      {
+        en: "You don't have to be great to start, but you have to start to be great.",
+        fa: "لازم نیست عالی باشی تا شروع کنی، اما باید شروع کنی تا عالی شوی."
+      },
+      {
+        en: "Be the change that you wish to see in the world.",
+        fa: "همان تغییری باش که می‌خواهی در جهان ببینی."
+      },
+      {
+        en: "What we think, we become.",
+        fa: "ما همان چیزی می‌شویم که به آن می‌اندیشیم."
+      },
+      {
+        en: "Tough times never last, but tough people do.",
+        fa: "روزهای سخت هرگز پایدار نمی‌مانند، اما انسان‌های سخت چرا."
+      },
+      {
+        en: "Failure is not the opposite of success; it's part of success.",
+        fa: "شکست نقطه مقابل موفقیت نیست؛ بلکه بخشی از آن است."
+      },
+      {
+        en: "If you want to lift yourself up, lift up someone else.",
+        fa: "اگر می‌خواهی خودت را بالا بکشی، فرد دیگری را بالا بکش."
+      },
+      {
+        en: "Every moment is a fresh beginning.",
+        fa: "هر لحظه یک شروع تازه است."
+      },
+      {
+        en: "Light tomorrow with today.",
+        fa: "فردا را با امروز روشن کن."
+      }
     ];
 
     let currentIndex = -1;
+    let particleAnimationId = null;
+
+    /* ---------------------------------------------------------
+       ELEMENTS
+    --------------------------------------------------------- */
+
+    const enEl = document.getElementById("english");
+    const faEl = document.getElementById("persian");
+    const mainButton = document.getElementById("main-btn");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d", {
+      alpha: true
+    });
+
+    const dot = document.getElementById("cursor-dot");
+    const ring = document.getElementById("cursor-ring");
+
+    /* ---------------------------------------------------------
+       RANDOM QUOTE
+    --------------------------------------------------------- */
 
     function getRandomIndex() {
+      if (quotes.length <= 1) {
+        return 0;
+      }
+
       let newIndex;
+
       do {
         newIndex = Math.floor(Math.random() * quotes.length);
-      } while (newIndex === currentIndex && quotes.length > 1);
+      } while (newIndex === currentIndex);
+
       return newIndex;
     }
 
-    function changeQuotes(e) {
-      const enEl = document.getElementById("english");
-      const faEl = document.getElementById("persian");
-
+    function changeQuotes(event = null) {
       enEl.classList.remove("show");
       faEl.classList.remove("show");
 
-      if (e) createParticles(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+      if (event && typeof event.clientX === "number") {
+        createParticles(
+          event.clientX,
+          event.clientY
+        );
+      } else {
+        const rect = mainButton.getBoundingClientRect();
 
-      setTimeout(() => {
+        createParticles(
+          rect.left + rect.width / 2,
+          rect.top + rect.height / 2
+        );
+      }
+
+      window.setTimeout(() => {
         currentIndex = getRandomIndex();
+
         const selected = quotes[currentIndex];
 
-        enEl.innerText = selected.en;
-        faEl.innerText = selected.fa;
+        enEl.textContent = selected.en;
+        faEl.textContent = selected.fa;
 
         enEl.classList.add("show");
         faEl.classList.add("show");
       }, 250);
     }
 
+    /* ---------------------------------------------------------
+       THEME
+    --------------------------------------------------------- */
+
     function toggleTheme() {
-      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.toggle("dark-mode");
+
+      try {
+        localStorage.setItem(
+          "daily-motivation-theme",
+          isDark ? "dark" : "light"
+        );
+      } catch (error) {
+        // Storage may be unavailable in private/restricted contexts.
+      }
     }
 
-    // Keyboard trigger
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space") {
-        e.preventDefault();
-        const btn = document.getElementById("main-btn");
-        const rect = btn.getBoundingClientRect();
-        changeQuotes({ clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 });
+    function restoreTheme() {
+      try {
+        const savedTheme = localStorage.getItem(
+          "daily-motivation-theme"
+        );
+
+        if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+        }
+
+        if (savedTheme === "light") {
+          document.body.classList.remove("dark-mode");
+        }
+      } catch (error) {
+        // Ignore storage errors.
       }
+    }
+
+    /* ---------------------------------------------------------
+       KEYBOARD
+    --------------------------------------------------------- */
+
+    document.addEventListener("keydown", (event) => {
+      if (event.code !== "Space") {
+        return;
+      }
+
+      const activeElement = document.activeElement;
+
+      if (
+        activeElement &&
+        (
+          activeElement.tagName === "INPUT" ||
+          activeElement.tagName === "TEXTAREA" ||
+          activeElement.tagName === "SELECT"
+        )
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const rect = mainButton.getBoundingClientRect();
+
+      changeQuotes({
+        clientX: rect.left + rect.width / 2,
+        clientY: rect.top + rect.height / 2
+      });
     });
 
-    /* Custom Cursor Logic */
-    const dot = document.getElementById("cursor-dot");
-    const ring = document.getElementById("cursor-ring");
+    /* ---------------------------------------------------------
+       CUSTOM CURSOR
+       Desktop only
+    --------------------------------------------------------- */
 
-    window.addEventListener("mousemove", (e) => {
-      dot.style.left = `${e.clientX}px`;
-      dot.style.top = `${e.clientY}px`;
-      
-      ring.style.left = `${e.clientX}px`;
-      ring.style.top = `${e.clientY}px`;
-    });
+    const desktopPointer =
+      window.matchMedia(
+        "(min-width: 900px) and (hover: hover) and (pointer: fine)"
+      );
 
-    document.querySelectorAll(".interactive").forEach(element => {
-      element.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
-      element.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
-    });
+    if (desktopPointer.matches) {
+      window.addEventListener("mousemove", (event) => {
+        if (!dot || !ring) {
+          return;
+        }
 
-    /* Particle Canvas Engine */
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    let particles = [];
+        dot.style.left = `${event.clientX}px`;
+        dot.style.top = `${event.clientY}px`;
+
+        ring.style.left = `${event.clientX}px`;
+        ring.style.top = `${event.clientY}px`;
+      });
+
+      document
+        .querySelectorAll(".interactive")
+        .forEach((element) => {
+          element.addEventListener("mouseenter", () => {
+            document.body.classList.add("hovering");
+          });
+
+          element.addEventListener("mouseleave", () => {
+            document.body.classList.remove("hovering");
+          });
+        });
+    }
+
+    /* ---------------------------------------------------------
+       PARTICLES
+       Reduced count on mobile for performance.
+    --------------------------------------------------------- */
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const pixelRatio = Math.min(
+        window.devicePixelRatio || 1,
+        2
+      );
+
+      canvas.width =
+        Math.floor(window.innerWidth * pixelRatio);
+
+      canvas.height =
+        Math.floor(window.innerHeight * pixelRatio);
+
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+
+      ctx.setTransform(
+        pixelRatio,
+        0,
+        0,
+        pixelRatio,
+        0,
+        0
+      );
     }
-    window.addEventListener("resize", resizeCanvas);
+
+    let resizeTimeout;
+
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimeout);
+
+      resizeTimeout = window.setTimeout(() => {
+        resizeCanvas();
+      }, 120);
+    });
+
     resizeCanvas();
 
     class Particle {
       constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 6 + 2;
-        this.speedX = (Math.random() - 0.5) * 8;
-        this.speedY = (Math.random() - 0.5) * 8 - 2;
-        this.color = `hsl(${Math.random() * 60 + 240}, 80%, 65%)`;
+
+        this.size =
+          Math.random() * 5 + 2;
+
+        this.speedX =
+          (Math.random() - 0.5) * 8;
+
+        this.speedY =
+          (Math.random() - 0.5) * 8 - 2;
+
+        this.color =
+          `hsl(${Math.random() * 60 + 240}, 80%, 65%)`;
+
         this.alpha = 1;
-        this.decay = Math.random() * 0.03 + 0.015;
+
+        this.decay =
+          Math.random() * 0.03 + 0.015;
       }
 
       update() {
@@ -522,35 +1277,91 @@
       }
 
       draw() {
+        if (this.alpha <= 0) {
+          return;
+        }
+
         ctx.save();
+
         ctx.globalAlpha = this.alpha;
         ctx.fillStyle = this.color;
+
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+        ctx.arc(
+          this.x,
+          this.y,
+          this.size,
+          0,
+          Math.PI * 2
+        );
+
         ctx.fill();
+
         ctx.restore();
       }
     }
 
     function createParticles(x, y) {
-      for (let i = 0; i < 24; i++) {
-        particles.push(new Particle(x, y));
+      const mobile =
+        window.matchMedia("(max-width: 599px)").matches;
+
+      const count = mobile ? 10 : 24;
+
+      for (let i = 0; i < count; i++) {
+        particles.push(
+          new Particle(x, y)
+        );
+      }
+
+      // Prevent an accidental particle buildup.
+      if (particles.length > 120) {
+        particles = particles.slice(-120);
       }
     }
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles = particles.filter(p => p.alpha > 0);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
+    let particles = [];
 
-    // Initial render
+    function animateParticles() {
+      ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+
+      particles =
+        particles.filter(
+          (particle) => particle.alpha > 0
+        );
+
+      for (const particle of particles) {
+        particle.update();
+        particle.draw();
+      }
+
+      particleAnimationId =
+        requestAnimationFrame(animateParticles);
+    }
+
+    /* ---------------------------------------------------------
+       INITIALIZE
+    --------------------------------------------------------- */
+
+    restoreTheme();
+
+    // Smaller motion workload when reduced motion is requested.
+    const reducedMotion =
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+    if (!reducedMotion) {
+      animateParticles();
+    }
+
     changeQuotes();
+
   </script>
 </body>
 </html>
