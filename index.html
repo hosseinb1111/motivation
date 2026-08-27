@@ -1,1367 +1,1961 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  >
-
-  <meta
-    name="theme-color"
-    content="#e2e8f0"
-    media="(prefers-color-scheme: light)"
-  >
-  <meta
-    name="theme-color"
-    content="#020617"
-    media="(prefers-color-scheme: dark)"
-  >
-
-  <title>Daily Motivation</title>
-
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Vazirmatn:wght@400;700;900&display=swap"
-    rel="stylesheet"
-  >
-
-  <style>
-    :root {
-      --bg-radial:
-        radial-gradient(
-          circle at 50% 10%,
-          #e2e8f0 0%,
-          #cbd5e1 100%
-        );
-
-      --glow-1: rgba(99, 102, 241, 0.15);
-      --glow-2: rgba(168, 85, 247, 0.15);
-
-      --card-bg: rgba(255, 255, 255, 0.65);
-
-      --card-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
-
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-
-      --btn-gradient:
-        linear-gradient(
-          135deg,
-          #6366f1 0%,
-          #8b5cf6 50%,
-          #d946ef 100%
-        );
-
-      --btn-glow: rgba(139, 92, 246, 0.5);
-      --btn-text: #ffffff;
-
-      --icon-bg: rgba(255, 255, 255, 0.8);
-      --icon-color: #0f172a;
-
-      --selection-bg: #8b5cf6;
-      --selection-color: #ffffff;
-
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-right: env(safe-area-inset-right, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --safe-left: env(safe-area-inset-left, 0px);
-    }
-
-    .dark-mode {
-      --bg-radial:
-        radial-gradient(
-          circle at 50% 10%,
-          #0f172a 0%,
-          #020617 100%
-        );
-
-      --glow-1: rgba(99, 102, 241, 0.25);
-      --glow-2: rgba(168, 85, 247, 0.25);
-
-      --card-bg: rgba(15, 23, 42, 0.65);
-
-      --card-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-
-      --btn-gradient:
-        linear-gradient(
-          135deg,
-          #818cf8 0%,
-          #c084fc 50%,
-          #e879f9 100%
-        );
-
-      --btn-glow: rgba(192, 132, 252, 0.5);
-      --btn-text: #0f172a;
-
-      --icon-bg: rgba(30, 41, 59, 0.8);
-      --icon-color: #f8fafc;
-
-      --selection-bg: #c084fc;
-      --selection-color: #0f172a;
-    }
-
-    /* ---------------------------------------------------------
-       RESET
-    --------------------------------------------------------- */
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    html {
-      width: 100%;
-      min-height: 100%;
-      background: #cbd5e1;
-      overflow-x: hidden;
-    }
-
-    body {
-      margin: 0;
-      width: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
-
-      padding:
-        calc(20px + var(--safe-top))
-        calc(16px + var(--safe-right))
-        calc(20px + var(--safe-bottom))
-        calc(16px + var(--safe-left));
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      position: relative;
-      isolation: isolate;
-
-      background: var(--bg-radial);
-      color: var(--text-main);
-
-      font-family: "Plus Jakarta Sans", sans-serif;
-
-      overflow-x: hidden;
-      overflow-y: auto;
-
-      transition:
-        background 0.6s ease,
-        color 0.6s ease;
-    }
-
-    ::selection {
-      background-color: var(--selection-bg);
-      color: var(--selection-color);
-    }
-
-    ::-moz-selection {
-      background-color: var(--selection-bg);
-      color: var(--selection-color);
-    }
-
-    button {
-      font: inherit;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    button:focus-visible {
-      outline: 3px solid rgba(139, 92, 246, 0.45);
-      outline-offset: 4px;
-    }
-
-    /* ---------------------------------------------------------
-       CUSTOM CURSOR
-       Desktop only
-    --------------------------------------------------------- */
-
-    .custom-cursor-dot,
-    .custom-cursor-ring {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
-
-    .custom-cursor-dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--selection-bg);
-      border-radius: 50%;
-
-      transition:
-        width 0.2s,
-        height 0.2s,
-        background-color 0.3s;
-    }
-
-    .custom-cursor-ring {
-      width: 36px;
-      height: 36px;
-      border: 2px solid var(--selection-bg);
-      border-radius: 50%;
-      z-index: 9998;
-      opacity: 0.6;
-
-      transition:
-        transform 0.15s ease-out,
-        width 0.2s,
-        height 0.2s,
-        border-color 0.3s;
-    }
-
-    body.hovering .custom-cursor-ring {
-      width: 54px;
-      height: 54px;
-      background: rgba(139, 92, 246, 0.1);
-      border-color: var(--selection-bg);
-    }
-
-    body.hovering .custom-cursor-dot {
-      width: 12px;
-      height: 12px;
-    }
-
-    /* ---------------------------------------------------------
-       BACKGROUND ORBS
-    --------------------------------------------------------- */
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -2;
-      filter: blur(80px);
-      transition: background 0.6s ease;
-    }
-
-    .orb-1 {
-      width: 350px;
-      height: 350px;
-      top: 15%;
-      left: 20%;
-      background: var(--glow-1);
-    }
-
-    .orb-2 {
-      width: 400px;
-      height: 400px;
-      right: 20%;
-      bottom: 15%;
-      background: var(--glow-2);
-    }
-
-    /* ---------------------------------------------------------
-       PARTICLE CANVAS
-    --------------------------------------------------------- */
-
-    #canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    /* ---------------------------------------------------------
-       TOP CONTROLS
-    --------------------------------------------------------- */
-
-    .top-controls {
-      position: absolute;
-      top: calc(16px + var(--safe-top));
-      right: calc(16px + var(--safe-right));
-
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      z-index: 20;
-    }
-
-    .icon-btn {
-      width: 46px;
-      height: 46px;
-      padding: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border: 0;
-      border-radius: 50%;
-
-      background: var(--icon-bg);
-      color: var(--icon-color);
-
-      box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.05);
-
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-
-      cursor: pointer;
-
-      transition:
-        transform 0.3s ease,
-        background 0.3s ease;
-    }
-
-    .icon-btn:hover {
-      transform: scale(1.08);
-    }
-
-    .icon-btn:active {
-      transform: scale(0.94);
-    }
-
-    /* ---------------------------------------------------------
-       MAIN CONTENT
-    --------------------------------------------------------- */
-
-    .content {
-      width: 100%;
-      max-width: 760px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      gap: 0;
-
-      z-index: 10;
-    }
-
-    /* ---------------------------------------------------------
-       QUOTE CARD
-    --------------------------------------------------------- */
-
-    .quote-card {
-      width: min(640px, 100%);
-
-      padding: clamp(24px, 6vw, 48px);
-
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-
-      gap: clamp(18px, 3vw, 24px);
-
-      text-align: center;
-
-      background: var(--card-bg);
-
-      border-radius: clamp(20px, 5vw, 28px);
-
-      box-shadow: var(--card-shadow);
-
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-
-      transition:
-        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        background 0.5s ease,
-        box-shadow 0.5s ease;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .quote-card:hover {
-        transform: translateY(-6px);
-      }
-    }
-
-    /* ---------------------------------------------------------
-       QUOTE TYPOGRAPHY
-    --------------------------------------------------------- */
-
-    .quote {
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-
-      transition:
-        opacity 0.4s ease,
-        transform 0.4s ease;
-    }
-
-    .quote.show {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    #english {
-      min-height: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: var(--text-main);
-
-      font-size: clamp(20px, 4vw, 24px);
-      font-weight: 800;
-
-      line-height: 1.55;
-      letter-spacing: -0.02em;
-
-      overflow-wrap: anywhere;
-      word-break: normal;
-    }
-
-    #persian {
-      min-height: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#e2e8f0"
+        media="(prefers-color-scheme: light)"
+    >
+
+    <meta
+        name="theme-color"
+        content="#020617"
+        media="(prefers-color-scheme: dark)"
+    >
+
+    <title>Daily Motivation</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Vazirmatn:wght@400;700;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --bg-radial:
+                radial-gradient(
+                    circle at 50% 10%,
+                    #e2e8f0 0%,
+                    #cbd5e1 100%
+                );
+
+            --glow-1: rgba(99, 102, 241, 0.15);
+            --glow-2: rgba(168, 85, 247, 0.15);
+
+            --card-bg: rgba(255, 255, 255, 0.65);
+
+            --card-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+
+            --btn-gradient:
+                linear-gradient(
+                    135deg,
+                    #6366f1 0%,
+                    #8b5cf6 50%,
+                    #d946ef 100%
+                );
+
+            --btn-glow: rgba(139, 92, 246, 0.5);
+            --btn-text: #ffffff;
+
+            --icon-bg: rgba(255, 255, 255, 0.8);
+            --icon-color: #0f172a;
+
+            --selection-bg: #8b5cf6;
+            --selection-color: #ffffff;
+
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+        }
+
+        .dark-mode {
+            --bg-radial:
+                radial-gradient(
+                    circle at 50% 10%,
+                    #0f172a 0%,
+                    #020617 100%
+                );
+
+            --glow-1: rgba(99, 102, 241, 0.25);
+            --glow-2: rgba(168, 85, 247, 0.25);
+
+            --card-bg: rgba(15, 23, 42, 0.65);
+
+            --card-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+
+            --btn-gradient:
+                linear-gradient(
+                    135deg,
+                    #818cf8 0%,
+                    #c084fc 50%,
+                    #e879f9 100%
+                );
+
+            --btn-glow: rgba(192, 132, 252, 0.5);
+            --btn-text: #0f172a;
+
+            --icon-bg: rgba(30, 41, 59, 0.8);
+            --icon-color: #f8fafc;
+
+            --selection-bg: #c084fc;
+            --selection-color: #0f172a;
+        }
+
+        /* ---------------------------------------------------------
+           RESET
+        --------------------------------------------------------- */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            min-height: 100%;
+            background: #cbd5e1;
+            overflow-x: hidden;
+        }
+
+        body {
+            margin: 0;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            padding:
+                calc(20px + var(--safe-top))
+                calc(16px + var(--safe-right))
+                calc(20px + var(--safe-bottom))
+                calc(16px + var(--safe-left));
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+            isolation: isolate;
+
+            background: var(--bg-radial);
+            color: var(--text-main);
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            transition:
+                background 0.6s ease,
+                color 0.6s ease;
+        }
+
+        ::selection {
+            background-color: var(--selection-bg);
+            color: var(--selection-color);
+        }
+
+        ::-moz-selection {
+            background-color: var(--selection-bg);
+            color: var(--selection-color);
+        }
+
+        button {
+            font: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-      direction: rtl;
-      text-align: center;
-
-      color: var(--text-main);
-
-      font-family: "Vazirmatn", sans-serif;
-      font-size: clamp(20px, 4vw, 24px);
-      font-weight: 700;
+        button:focus-visible {
+            outline: 3px solid rgba(139, 92, 246, 0.45);
+            outline-offset: 4px;
+        }
+
+        /* ---------------------------------------------------------
+           CUSTOM CURSOR
+           Desktop only
+        --------------------------------------------------------- */
 
-      line-height: 1.8;
+        .custom-cursor-dot,
+        .custom-cursor-ring {
+            display: none;
 
-      overflow-wrap: anywhere;
-      word-break: normal;
-    }
+            position: fixed;
+            top: 0;
+            left: 0;
 
-    .divider {
-      width: 42%;
-      max-width: 220px;
-      height: 1px;
+            pointer-events: none;
+            z-index: 9999;
 
-      margin: 0 auto;
-
-      background: var(--text-muted);
-      opacity: 0.2;
+            transform: translate(-50%, -50%);
+        }
 
-      flex-shrink: 0;
-    }
+        .custom-cursor-dot {
+            width: 8px;
+            height: 8px;
 
-    /* ---------------------------------------------------------
-       BUTTON
-    --------------------------------------------------------- */
+            background-color: var(--selection-bg);
 
-    .controls {
-      width: 100%;
+            border-radius: 50%;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+            transition:
+                width 0.2s,
+                height 0.2s,
+                background-color 0.3s;
+        }
 
-      margin-top: clamp(20px, 5vw, 36px);
+        .custom-cursor-ring {
+            width: 36px;
+            height: 36px;
 
-      z-index: 10;
-    }
+            border: 2px solid var(--selection-bg);
+            border-radius: 50%;
 
-    .change-button {
-      position: relative;
+            z-index: 9998;
+            opacity: 0.6;
 
-      width: min(100%, 300px);
-      min-height: 56px;
+            transition:
+                transform 0.15s ease-out,
+                width 0.2s,
+                height 0.2s,
+                border-color 0.3s;
+        }
 
-      padding: 15px 24px;
+        body.hovering .custom-cursor-ring {
+            width: 54px;
+            height: 54px;
 
-      border: none;
-      border-radius: 18px;
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--selection-bg);
+        }
 
-      background: var(--btn-gradient);
-      background-size: 200% auto;
+        body.hovering .custom-cursor-dot {
+            width: 12px;
+            height: 12px;
+        }
 
-      color: var(--btn-text);
+        /* ---------------------------------------------------------
+           BACKGROUND ORBS
+        --------------------------------------------------------- */
 
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.01em;
+        .orb {
+            position: absolute;
 
-      box-shadow:
-        0 10px 30px var(--btn-glow);
+            border-radius: 50%;
 
-      cursor: pointer;
+            pointer-events: none;
+            z-index: -2;
 
-      overflow: hidden;
-      isolation: isolate;
+            filter: blur(80px);
 
-      outline: none;
+            transition: background 0.6s ease;
+        }
 
-      transition:
-        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow 0.3s ease,
-        background-position 0.4s ease;
-    }
+        .orb-1 {
+            width: 350px;
+            height: 350px;
 
-    .change-button::before {
-      content: "";
+            top: 15%;
+            left: 20%;
 
-      position: absolute;
-      inset: -2px;
+            background: var(--glow-1);
+        }
 
-      border-radius: 20px;
+        .orb-2 {
+            width: 400px;
+            height: 400px;
 
-      background: var(--btn-gradient);
-      background-size: 200% auto;
+            right: 20%;
+            bottom: 15%;
 
-      z-index: -2;
+            background: var(--glow-2);
+        }
 
-      filter: blur(8px);
+        /* ---------------------------------------------------------
+           PARTICLE CANVAS
+        --------------------------------------------------------- */
 
-      opacity: 0.7;
+        #canvas {
+            position: fixed;
+            inset: 0;
 
-      transition:
-        opacity 0.3s ease,
-        background-position 0.4s ease;
-    }
+            width: 100%;
+            height: 100%;
 
-    .change-button::after {
-      content: "";
+            pointer-events: none;
+            z-index: 5;
+        }
 
-      position: absolute;
+        /* ---------------------------------------------------------
+           TOP CONTROLS
+        --------------------------------------------------------- */
 
-      top: -50%;
-      left: -50%;
+        .top-controls {
+            position: absolute;
 
-      width: 200%;
-      height: 200%;
+            top: calc(16px + var(--safe-top));
+            right: calc(16px + var(--safe-right));
 
-      background:
-        linear-gradient(
-          60deg,
-          transparent 30%,
-          rgba(255, 255, 255, 0.35) 50%,
-          transparent 70%
-        );
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
-      transform: rotate(30deg) translateX(-100%);
+            z-index: 20;
+        }
 
-      transition: transform 0.8s ease;
+        .icon-btn {
+            width: 46px;
+            height: 46px;
 
-      pointer-events: none;
-    }
+            padding: 0;
 
-    @media (hover: hover) and (pointer: fine) {
-      .change-button:hover {
-        transform: translateY(-4px) scale(1.03);
-        background-position: right center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-        box-shadow:
-          0 15px 35px var(--btn-glow);
-      }
+            border: 0;
+            border-radius: 50%;
 
-      .change-button:hover::before {
-        opacity: 1;
-        background-position: right center;
-      }
+            background: var(--icon-bg);
+            color: var(--icon-color);
 
-      .change-button:hover::after {
-        transform: rotate(30deg) translateX(100%);
-      }
-    }
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.05);
 
-    .change-button:active {
-      transform: translateY(2px) scale(0.97);
-
-      box-shadow:
-        0 5px 15px var(--btn-glow);
-    }
-
-    /* ---------------------------------------------------------
-       HINT
-    --------------------------------------------------------- */
-
-    .hint {
-      position: fixed;
-
-      left: 50%;
-      bottom: calc(12px + var(--safe-bottom));
-
-      transform: translateX(-50%);
-
-      width: calc(100% - 32px);
-
-      text-align: center;
-
-      color: var(--text-muted);
-
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-
-      opacity: 0.65;
-
-      user-select: none;
-      pointer-events: none;
-    }
-
-    /* ---------------------------------------------------------
-       TABLETS
-    --------------------------------------------------------- */
-
-    @media (min-width: 600px) {
-      body {
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-
-      .top-controls {
-        top: calc(24px + var(--safe-top));
-        right: calc(24px + var(--safe-right));
-      }
-
-      .hint {
-        bottom: calc(18px + var(--safe-bottom));
-        font-size: 12px;
-      }
-    }
-
-    /* ---------------------------------------------------------
-       DESKTOP
-    --------------------------------------------------------- */
-
-    @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
-      body {
-        overflow: hidden;
-        cursor: none;
-      }
-
-      button,
-      .interactive {
-        cursor: none;
-      }
-
-      .custom-cursor-dot,
-      .custom-cursor-ring {
-        display: block;
-      }
-    }
-
-    /* ---------------------------------------------------------
-       MOBILE
-    --------------------------------------------------------- */
-
-    @media (max-width: 599px) {
-      body {
-        justify-content: center;
-      }
-
-      .orb {
-        filter: blur(60px);
-      }
-
-      .orb-1 {
-        width: 220px;
-        height: 220px;
-        top: 5%;
-        left: -10%;
-      }
-
-      .orb-2 {
-        width: 240px;
-        height: 240px;
-        right: -10%;
-        bottom: 8%;
-      }
-
-      .quote-card {
-        padding:
-          clamp(22px, 6vw, 32px)
-          clamp(18px, 6vw, 28px);
-      }
-
-      .change-button {
-        width: 100%;
-        max-width: 100%;
-        min-height: 58px;
-        border-radius: 17px;
-      }
-
-      .hint {
-        font-size: 9px;
-        letter-spacing: 0.06em;
-      }
-    }
-
-    /* ---------------------------------------------------------
-       VERY SMALL PHONES
-    --------------------------------------------------------- */
-
-    @media (max-width: 380px) {
-      body {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-
-      .top-controls {
-        top: calc(12px + var(--safe-top));
-        right: calc(12px + var(--safe-right));
-      }
-
-      .icon-btn {
-        width: 42px;
-        height: 42px;
-        font-size: 16px;
-      }
-
-      #english,
-      #persian {
-        font-size: 18px;
-      }
-
-      .quote-card {
-        padding: 20px 16px;
-        gap: 16px;
-      }
-
-      .controls {
-        margin-top: 16px;
-      }
-
-      .change-button {
-        min-height: 54px;
-        font-size: 14px;
-      }
-    }
-
-    /* ---------------------------------------------------------
-       REDUCED MOTION / PERFORMANCE
-    --------------------------------------------------------- */
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-      }
-
-      .orb {
-        filter: blur(40px);
-      }
-    }
-  </style>
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+
+            cursor: pointer;
+
+            transition:
+                transform 0.3s ease,
+                background 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.94);
+        }
+
+        /* ---------------------------------------------------------
+           MAIN CONTENT
+        --------------------------------------------------------- */
+
+        .content {
+            width: 100%;
+            max-width: 760px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            gap: 0;
+
+            z-index: 10;
+        }
+
+        /* ---------------------------------------------------------
+           QUOTE CARD
+        --------------------------------------------------------- */
+
+        .quote-card {
+            position: relative;
+
+            width: min(640px, 100%);
+
+            padding: clamp(24px, 6vw, 48px);
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+            gap: clamp(18px, 3vw, 24px);
+
+            text-align: center;
+
+            background: var(--card-bg);
+
+            border-radius: clamp(20px, 5vw, 28px);
+
+            box-shadow: var(--card-shadow);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background 0.5s ease,
+                box-shadow 0.5s ease;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .quote-card:hover {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* ---------------------------------------------------------
+           QUOTE
+        --------------------------------------------------------- */
+
+        .quote {
+            opacity: 0;
+            transform: translateY(12px) scale(0.98);
+
+            transition:
+                opacity 0.4s ease,
+                transform 0.4s ease;
+        }
+
+        .quote.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        #english {
+            min-height: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--text-main);
+
+            font-size: clamp(20px, 4vw, 24px);
+            font-weight: 800;
+
+            line-height: 1.55;
+            letter-spacing: -0.02em;
+
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        #persian {
+            min-height: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            direction: rtl;
+            text-align: center;
+
+            color: var(--text-main);
+
+            font-family: "Vazirmatn", sans-serif;
+            font-size: clamp(20px, 4vw, 24px);
+            font-weight: 700;
+
+            line-height: 1.8;
+
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .divider {
+            width: 42%;
+            max-width: 220px;
+            height: 1px;
+
+            margin: 0 auto;
+
+            background: var(--text-muted);
+
+            opacity: 0.2;
+
+            flex-shrink: 0;
+        }
+
+        /* ---------------------------------------------------------
+           ORBITAL LOADER
+        --------------------------------------------------------- */
+
+        .quote-loader {
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+            visibility: hidden;
+
+            pointer-events: none;
+
+            transform: scale(0.94);
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.3s ease,
+                visibility 0.25s ease;
+        }
+
+        .quote-card.is-loading .quote-loader {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .quote-card.is-loading .quote,
+        .quote-card.is-loading .divider {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ap {
+            display: block;
+
+            width: 96px;
+            height: 96px;
+
+            color: var(--text-main);
+
+            --rate: 1;
+        }
+
+        .ap-halo {
+            stroke: currentColor;
+            stroke-width: 1;
+
+            opacity: 0.1;
+        }
+
+        .ap-r1,
+        .ap-r2,
+        .ap-r3 {
+            stroke: currentColor;
+            stroke-linecap: round;
+
+            fill: none;
+
+            transform-box: view-box;
+            transform-origin: center;
+
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        .ap-r1 {
+            stroke-width: 2;
+            stroke-dasharray: 34 14 9 43;
+
+            opacity: 0.95;
+
+            animation-name: ap-cw;
+            animation-duration:
+                calc(2.8s * var(--rate, 1));
+        }
+
+        .ap-r2 {
+            stroke-width: 2.4;
+            stroke-dasharray: 24 10 24 42;
+
+            opacity: 0.72;
+
+            animation-name: ap-ccw;
+            animation-duration:
+                calc(3.9s * var(--rate, 1));
+        }
+
+        .ap-r3 {
+            stroke-width: 2.8;
+            stroke-dasharray: 16 12 16 56;
+
+            opacity: 0.52;
+
+            animation-name: ap-cw;
+            animation-duration:
+                calc(2.1s * var(--rate, 1));
+        }
+
+        .ap-core {
+            fill: currentColor;
+
+            transform-box: view-box;
+            transform-origin: center;
+
+            animation:
+                ap-core
+                calc(2.1s * var(--rate, 1))
+                ease-in-out
+                infinite;
+        }
+
+        @keyframes ap-cw {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes ap-ccw {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes ap-core {
+            0%,
+            100% {
+                transform: scale(0.55);
+                opacity: 0.45;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ---------------------------------------------------------
+           BUTTON
+        --------------------------------------------------------- */
+
+        .controls {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: clamp(20px, 5vw, 36px);
+
+            z-index: 10;
+        }
+
+        .change-button {
+            position: relative;
+
+            width: min(100%, 300px);
+            min-height: 56px;
+
+            padding: 15px 24px;
+
+            border: none;
+            border-radius: 18px;
+
+            background: var(--btn-gradient);
+            background-size: 200% auto;
+
+            color: var(--btn-text);
+
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+
+            box-shadow:
+                0 10px 30px var(--btn-glow);
+
+            cursor: pointer;
+
+            overflow: hidden;
+            isolation: isolate;
+
+            outline: none;
+
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.3s ease,
+                background-position 0.4s ease,
+                opacity 0.25s ease;
+        }
+
+        .change-button::before {
+            content: "";
+
+            position: absolute;
+            inset: -2px;
+
+            border-radius: 20px;
+
+            background: var(--btn-gradient);
+            background-size: 200% auto;
+
+            z-index: -2;
+
+            filter: blur(8px);
+
+            opacity: 0.7;
+
+            transition:
+                opacity 0.3s ease,
+                background-position 0.4s ease;
+        }
+
+        .change-button::after {
+            content: "";
+
+            position: absolute;
+
+            top: -50%;
+            left: -50%;
+
+            width: 200%;
+            height: 200%;
+
+            background:
+                linear-gradient(
+                    60deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.35) 50%,
+                    transparent 70%
+                );
+
+            transform:
+                rotate(30deg)
+                translateX(-100%);
+
+            transition: transform 0.8s ease;
+
+            pointer-events: none;
+        }
+
+        .change-button.is-loading {
+            opacity: 0.72;
+            pointer-events: none;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .change-button:hover {
+                transform: translateY(-4px) scale(1.03);
+
+                background-position: right center;
+
+                box-shadow:
+                    0 15px 35px var(--btn-glow);
+            }
+
+            .change-button:hover::before {
+                opacity: 1;
+                background-position: right center;
+            }
+
+            .change-button:hover::after {
+                transform:
+                    rotate(30deg)
+                    translateX(100%);
+            }
+        }
+
+        .change-button:active {
+            transform: translateY(2px) scale(0.97);
+
+            box-shadow:
+                0 5px 15px var(--btn-glow);
+        }
+
+        /* ---------------------------------------------------------
+           HINT
+        --------------------------------------------------------- */
+
+        .hint {
+            position: fixed;
+
+            left: 50%;
+            bottom: calc(12px + var(--safe-bottom));
+
+            transform: translateX(-50%);
+
+            width: calc(100% - 32px);
+
+            text-align: center;
+
+            color: var(--text-muted);
+
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+
+            opacity: 0.65;
+
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .mobile-hint {
+            display: none;
+        }
+
+        /* ---------------------------------------------------------
+           TABLETS
+        --------------------------------------------------------- */
+
+        @media (min-width: 600px) {
+            body {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .top-controls {
+                top: calc(24px + var(--safe-top));
+                right: calc(24px + var(--safe-right));
+            }
+
+            .hint {
+                bottom: calc(18px + var(--safe-bottom));
+                font-size: 12px;
+            }
+        }
+
+        /* ---------------------------------------------------------
+           DESKTOP
+        --------------------------------------------------------- */
+
+        @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+            body {
+                overflow: hidden;
+                cursor: none;
+            }
+
+            button,
+            .interactive {
+                cursor: none;
+            }
+
+            .custom-cursor-dot,
+            .custom-cursor-ring {
+                display: block;
+            }
+        }
+
+        /* ---------------------------------------------------------
+           MOBILE
+        --------------------------------------------------------- */
+
+        @media (max-width: 599px) {
+            body {
+                justify-content: center;
+            }
+
+            .orb {
+                filter: blur(60px);
+            }
+
+            .orb-1 {
+                width: 220px;
+                height: 220px;
+
+                top: 5%;
+                left: -10%;
+            }
+
+            .orb-2 {
+                width: 240px;
+                height: 240px;
+
+                right: -10%;
+                bottom: 8%;
+            }
+
+            .quote-card {
+                padding:
+                    clamp(22px, 6vw, 32px)
+                    clamp(18px, 6vw, 28px);
+            }
+
+            .ap {
+                width: 82px;
+                height: 82px;
+            }
+
+            .change-button {
+                width: 100%;
+                max-width: 100%;
+
+                min-height: 58px;
+
+                border-radius: 17px;
+            }
+
+            .hint {
+                font-size: 9px;
+                letter-spacing: 0.06em;
+            }
+
+            .desktop-hint {
+                display: none;
+            }
+
+            .mobile-hint {
+                display: inline;
+            }
+        }
+
+        /* ---------------------------------------------------------
+           VERY SMALL PHONES
+        --------------------------------------------------------- */
+
+        @media (max-width: 380px) {
+            body {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .top-controls {
+                top: calc(12px + var(--safe-top));
+                right: calc(12px + var(--safe-right));
+            }
+
+            .icon-btn {
+                width: 42px;
+                height: 42px;
+
+                font-size: 16px;
+            }
+
+            #english,
+            #persian {
+                font-size: 18px;
+            }
+
+            .quote-card {
+                padding: 20px 16px;
+                gap: 16px;
+            }
+
+            .controls {
+                margin-top: 16px;
+            }
+
+            .change-button {
+                min-height: 54px;
+                font-size: 14px;
+            }
+
+            .ap {
+                width: 74px;
+                height: 74px;
+            }
+        }
+
+        /* ---------------------------------------------------------
+           REDUCED MOTION
+        --------------------------------------------------------- */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+
+                transition-duration: 0.01ms !important;
+
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .orb {
+                filter: blur(40px);
+            }
+
+            .ap-r1,
+            .ap-r2,
+            .ap-r3,
+            .ap-core {
+                animation: none;
+            }
+
+            .ap-r2 {
+                transform: rotate(42deg);
+            }
+
+            .ap-r3 {
+                transform: rotate(-28deg);
+            }
+
+            .ap-core {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- Custom Cursor - desktop only -->
-  <div class="custom-cursor-dot" id="cursor-dot"></div>
-  <div class="custom-cursor-ring" id="cursor-ring"></div>
+    <!-- Custom Cursor -->
+    <div
+        class="custom-cursor-dot"
+        id="cursor-dot"
+    ></div>
 
-  <!-- Ambient background -->
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+    <div
+        class="custom-cursor-ring"
+        id="cursor-ring"
+    ></div>
 
-  <!-- Particle layer -->
-  <canvas id="canvas" aria-hidden="true"></canvas>
 
-  <!-- Theme -->
-  <div class="top-controls">
-    <button
-      type="button"
-      class="icon-btn interactive"
-      onclick="toggleTheme()"
-      title="Toggle Theme"
-      aria-label="Toggle theme"
-      id="theme-btn"
-    >
-      🌓
-    </button>
-  </div>
+    <!-- Ambient Background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-  <main class="content">
 
-    <section class="quote-card" aria-live="polite">
-      <div id="english" class="quote"></div>
+    <!-- Particle Layer -->
+    <canvas
+        id="canvas"
+        aria-hidden="true"
+    ></canvas>
 
-      <div class="divider"></div>
 
-      <div id="persian" class="quote"></div>
-    </section>
+    <!-- Theme -->
+    <div class="top-controls">
 
-    <div class="controls">
-      <button
-        type="button"
-        class="change-button interactive"
-        id="main-btn"
-        onclick="changeQuotes(event)"
-      >
-        Get Inspired ✨
-      </button>
+        <button
+            type="button"
+            class="icon-btn interactive"
+            onclick="toggleTheme()"
+            title="Toggle Theme"
+            aria-label="Toggle theme"
+            id="theme-btn"
+        >
+            🌓
+        </button>
+
     </div>
 
-  </main>
 
-  <div class="hint">
-    <span class="desktop-hint">Press Spacebar to Generate</span>
-    <span class="mobile-hint">Tap the button for inspiration</span>
-  </div>
+    <!-- Main Content -->
+    <main class="content">
 
-  <script>
-    /* ---------------------------------------------------------
-       QUOTES
-    --------------------------------------------------------- */
+        <section
+            class="quote-card"
+            id="quote-card"
+            aria-live="polite"
+        >
 
-    const quotes = [
-      {
-        en: "Believe in yourself—you're unstoppable.",
-        fa: "خودت را باور داشته باش—تو توقف‌ناپذیری."
-      },
-      {
-        en: "Dream big, start small, act now!",
-        fa: "بزرگ فکر کن، کوچک شروع کن، همین حالا اقدام کن!"
-      },
-      {
-        en: "Your only limit is your imagination.",
-        fa: "تنها حد تو تخیلات توست."
-      },
-      {
-        en: "Success begins with a single step.",
-        fa: "موفقیت با یک قدم ساده شروع می‌شود."
-      },
-      {
-        en: "The future belongs to those who work for it.",
-        fa: "آینده متعلق به کسانی است که برای آن تلاش می‌کنند."
-      },
-      {
-        en: "Every failure is a step toward success.",
-        fa: "هر شکست یک قدم به سوی موفقیت است."
-      },
-      {
-        en: "You are your greatest investment.",
-        fa: "خودت بزرگ‌ترین سرمایه‌گذاری‌ات هستی."
-      },
-      {
-        en: "Stay focused; stay determined.",
-        fa: "متمرکز بمان؛ مصمم بمان."
-      },
-      {
-        en: "Rise above your doubts and soar.",
-        fa: "شک و تردیدهای خود را پشت سر بگذار و اوج بگیر."
-      },
-      {
-        en: "Turn obstacles into opportunities.",
-        fa: "هر مانع را به یک فرصت تبدیل کن."
-      },
-      {
-        en: "Effort beats talent when talent doesn't work hard.",
-        fa: "تلاش، استعداد را شکست می‌دهد وقتی که استعداد تلاش نمی‌کند."
-      },
-      {
-        en: "Your mindset shapes your reality.",
-        fa: "ذهنیت تو واقعیتت را می‌سازد."
-      },
-      {
-        en: "Small steps lead to big changes.",
-        fa: "گام‌های کوچک منجر به تغییرات بزرگ می‌شوند."
-      },
-      {
-        en: "Persistence is key.",
-        fa: "پایداری کلید موفقیت است."
-      },
-      {
-        en: "Action conquers fear.",
-        fa: "عمل کردن بر ترس غالب می‌شود."
-      },
-      {
-        en: "Conquer your mind and you'll conquer the world.",
-        fa: "ذهن خود را تسخیر کن تا جهان را تسخیر کنی."
-      },
-      {
-        en: "Pursue excellence, not perfection.",
-        fa: "عالی بودن را دنبال کن، نه کامل بودن را."
-      },
-      {
-        en: "Hard work beats excuses.",
-        fa: "کار سخت بهانه‌ها را شکست می‌دهد."
-      },
-      {
-        en: "Life is 10% what happens and 90% how you respond.",
-        fa: "زندگی ۱۰٪ اتفاقات است و ۹۰٪ واکنش تو."
-      },
-      {
-        en: "Focus on progress, not perfection.",
-        fa: "روی پیشرفت تمرکز کن، نه بر کمال."
-      },
-      {
-        en: "Don't count the days, make the days count.",
-        fa: "روزها را نشمار، کاری کن که روزها به حساب بیایند."
-      },
-      {
-        en: "Doubt kills more dreams than failure ever will.",
-        fa: "شک بیش از هر شکستی رویاها را می‌کشد."
-      },
-      {
-        en: "Everything you’ve ever wanted is on the other side of fear.",
-        fa: "هر آنچه تاکنون خواسته‌ای در آن سوی ترس قرار دارد."
-      },
-      {
-        en: "Believe you can and you're halfway there.",
-        fa: "باور داشته باش که می‌توانی، نیمی از راه را رفته‌ای."
-      },
-      {
-        en: "Your time is limited, don't waste it living someone else's life.",
-        fa: "زمان تو محدود است، آن را با زندگی به سبک دیگران هدر نده."
-      },
-      {
-        en: "Do what you can, with what you have, where you are.",
-        fa: "هر کاری می‌توانی انجام بده، با هر چه داری، در هر کجا که هستی."
-      },
-      {
-        en: "Keep your face always toward the sunshine and shadows will fall behind you.",
-        fa: "همیشه رو به خورشید بایست تا سایه‌ها پشت سرت بیفتند."
-      },
-      {
-        en: "It always seems impossible until it’s done.",
-        fa: "همیشه تا زمانی که کاری انجام نشده، غیرممکن به نظر می‌رسد."
-      },
-      {
-        en: "Turn your wounds into wisdom.",
-        fa: "زخم‌هایت را به حکمت تبدیل کن."
-      },
-      {
-        en: "Happiness depends upon ourselves.",
-        fa: "خوشبختی به خود ما بستگی دارد."
-      },
-      {
-        en: "Change the world by being yourself.",
-        fa: "با خود واقعی‌ات بودن، جهان را تغییر بده."
-      },
-      {
-        en: "Never regret anything that made you smile.",
-        fa: "هرگز از چیزی که لبخند به لبانت آورده پشیمان نشو."
-      },
-      {
-        en: "Die with memories, not dreams.",
-        fa: "با خاطرات بمیر، نه با رویاها."
-      },
-      {
-        en: "Aspire to inspire before we expire.",
-        fa: "تلاش کن تا قبل از پایان زندگی، الهام‌بخش باشی."
-      },
-      {
-        en: "Simplicity is the ultimate sophistication.",
-        fa: "سادگی، نهایت هوشمندی و ظرافت است."
-      },
-      {
-        en: "Whatever you are, be a good one.",
-        fa: "هر چه هستی، یک فرد خوب باش."
-      },
-      {
-        en: "To live will be an awfully big adventure.",
-        fa: "زندگی کردن یک ماجراجویی بسیار بزرگ خواهد بود."
-      },
-      {
-        en: "Try to be a rainbow in someone's cloud.",
-        fa: "سعی کن رنگین‌کمانی در ابرهای زندگی کسی باشی."
-      },
-      {
-        en: "Do one thing every day that scares you.",
-        fa: "هر روز کاری انجام بده که تو را می‌ترساند."
-      },
-      {
-        en: "Seize common occasions and make them great.",
-        fa: "فرصت‌های عادی را بگیر و آنها را بزرگ کن."
-      },
-      {
-        en: "Energy flows where attention goes.",
-        fa: "انرژی به جایی می‌رود که توجه به آن معطوف است."
-      },
-      {
-        en: "Little by little, one travels far.",
-        fa: "کم‌کم و قدم به قدم، می‌توان مسیرهای طولانی را پیمود."
-      },
-      {
-        en: "You don't have to be great to start, but you have to start to be great.",
-        fa: "لازم نیست عالی باشی تا شروع کنی، اما باید شروع کنی تا عالی شوی."
-      },
-      {
-        en: "Be the change that you wish to see in the world.",
-        fa: "همان تغییری باش که می‌خواهی در جهان ببینی."
-      },
-      {
-        en: "What we think, we become.",
-        fa: "ما همان چیزی می‌شویم که به آن می‌اندیشیم."
-      },
-      {
-        en: "Tough times never last, but tough people do.",
-        fa: "روزهای سخت هرگز پایدار نمی‌مانند، اما انسان‌های سخت چرا."
-      },
-      {
-        en: "Failure is not the opposite of success; it's part of success.",
-        fa: "شکست نقطه مقابل موفقیت نیست؛ بلکه بخشی از آن است."
-      },
-      {
-        en: "If you want to lift yourself up, lift up someone else.",
-        fa: "اگر می‌خواهی خودت را بالا بکشی، فرد دیگری را بالا بکش."
-      },
-      {
-        en: "Every moment is a fresh beginning.",
-        fa: "هر لحظه یک شروع تازه است."
-      },
-      {
-        en: "Light tomorrow with today.",
-        fa: "فردا را با امروز روشن کن."
-      }
-    ];
+            <!-- Orbital Loading Animation -->
+            <div
+                class="quote-loader"
+                id="quote-loader"
+                aria-hidden="true"
+            >
 
-    let currentIndex = -1;
-    let particleAnimationId = null;
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ap"
+                    viewBox="0 0 64 64"
+                    width="96"
+                    height="96"
+                    fill="none"
+                    aria-hidden="true"
+                >
 
-    /* ---------------------------------------------------------
-       ELEMENTS
-    --------------------------------------------------------- */
+                    <circle
+                        class="ap-halo"
+                        cx="32"
+                        cy="32"
+                        r="30.5"
+                    />
 
-    const enEl = document.getElementById("english");
-    const faEl = document.getElementById("persian");
-    const mainButton = document.getElementById("main-btn");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d", {
-      alpha: true
-    });
+                    <circle
+                        class="ap-r1"
+                        cx="32"
+                        cy="32"
+                        r="27"
+                        pathLength="100"
+                    />
 
-    const dot = document.getElementById("cursor-dot");
-    const ring = document.getElementById("cursor-ring");
+                    <circle
+                        class="ap-r2"
+                        cx="32"
+                        cy="32"
+                        r="20"
+                        pathLength="100"
+                    />
 
-    /* ---------------------------------------------------------
-       RANDOM QUOTE
-    --------------------------------------------------------- */
+                    <circle
+                        class="ap-r3"
+                        cx="32"
+                        cy="32"
+                        r="13"
+                        pathLength="100"
+                    />
 
-    function getRandomIndex() {
-      if (quotes.length <= 1) {
-        return 0;
-      }
+                    <circle
+                        class="ap-core"
+                        cx="32"
+                        cy="32"
+                        r="2.6"
+                    />
 
-      let newIndex;
+                </svg>
 
-      do {
-        newIndex = Math.floor(Math.random() * quotes.length);
-      } while (newIndex === currentIndex);
+            </div>
 
-      return newIndex;
-    }
 
-    function changeQuotes(event = null) {
-      enEl.classList.remove("show");
-      faEl.classList.remove("show");
+            <!-- English Quote -->
+            <div
+                id="english"
+                class="quote"
+            ></div>
 
-      if (event && typeof event.clientX === "number") {
-        createParticles(
-          event.clientX,
-          event.clientY
-        );
-      } else {
-        const rect = mainButton.getBoundingClientRect();
 
-        createParticles(
-          rect.left + rect.width / 2,
-          rect.top + rect.height / 2
-        );
-      }
+            <div class="divider"></div>
 
-      window.setTimeout(() => {
-        currentIndex = getRandomIndex();
 
-        const selected = quotes[currentIndex];
+            <!-- Persian Quote -->
+            <div
+                id="persian"
+                class="quote"
+            ></div>
 
-        enEl.textContent = selected.en;
-        faEl.textContent = selected.fa;
+        </section>
 
-        enEl.classList.add("show");
-        faEl.classList.add("show");
-      }, 250);
-    }
 
-    /* ---------------------------------------------------------
-       THEME
-    --------------------------------------------------------- */
+        <!-- Button -->
+        <div class="controls">
 
-    function toggleTheme() {
-      const isDark = document.body.classList.toggle("dark-mode");
+            <button
+                type="button"
+                class="change-button interactive"
+                id="main-btn"
+                onclick="changeQuotes(event)"
+            >
+                <span id="button-text">
+                    Get Inspired ✨
+                </span>
+            </button>
 
-      try {
-        localStorage.setItem(
-          "daily-motivation-theme",
-          isDark ? "dark" : "light"
-        );
-      } catch (error) {
-        // Storage may be unavailable in private/restricted contexts.
-      }
-    }
+        </div>
 
-    function restoreTheme() {
-      try {
-        const savedTheme = localStorage.getItem(
-          "daily-motivation-theme"
-        );
+    </main>
 
-        if (savedTheme === "dark") {
-          document.body.classList.add("dark-mode");
+
+    <!-- Hint -->
+    <div class="hint">
+
+        <span class="desktop-hint">
+            Press Spacebar to Generate
+        </span>
+
+        <span class="mobile-hint">
+            Tap the button for inspiration
+        </span>
+
+    </div>
+
+
+    <script>
+
+        /* ---------------------------------------------------------
+           QUOTES
+        --------------------------------------------------------- */
+
+        const quotes = [
+            {
+                en: "Believe in yourself—you're unstoppable.",
+                fa: "خودت را باور داشته باش—تو توقف‌ناپذیری."
+            },
+            {
+                en: "Dream big, start small, act now!",
+                fa: "بزرگ فکر کن، کوچک شروع کن، همین حالا اقدام کن!"
+            },
+            {
+                en: "Your only limit is your imagination.",
+                fa: "تنها حد تو تخیلات توست."
+            },
+            {
+                en: "Success begins with a single step.",
+                fa: "موفقیت با یک قدم ساده شروع می‌شود."
+            },
+            {
+                en: "The future belongs to those who work for it.",
+                fa: "آینده متعلق به کسانی است که برای آن تلاش می‌کنند."
+            },
+            {
+                en: "Every failure is a step toward success.",
+                fa: "هر شکست یک قدم به سوی موفقیت است."
+            },
+            {
+                en: "You are your greatest investment.",
+                fa: "خودت بزرگ‌ترین سرمایه‌گذاری‌ات هستی."
+            },
+            {
+                en: "Stay focused; stay determined.",
+                fa: "متمرکز بمان؛ مصمم بمان."
+            },
+            {
+                en: "Rise above your doubts and soar.",
+                fa: "شک و تردیدهای خود را پشت سر بگذار و اوج بگیر."
+            },
+            {
+                en: "Turn obstacles into opportunities.",
+                fa: "هر مانع را به یک فرصت تبدیل کن."
+            },
+            {
+                en: "Effort beats talent when talent doesn't work hard.",
+                fa: "تلاش، استعداد را شکست می‌دهد وقتی که استعداد تلاش نمی‌کند."
+            },
+            {
+                en: "Your mindset shapes your reality.",
+                fa: "ذهنیت تو واقعیتت را می‌سازد."
+            },
+            {
+                en: "Small steps lead to big changes.",
+                fa: "گام‌های کوچک منجر به تغییرات بزرگ می‌شوند."
+            },
+            {
+                en: "Persistence is key.",
+                fa: "پایداری کلید موفقیت است."
+            },
+            {
+                en: "Action conquers fear.",
+                fa: "عمل کردن بر ترس غالب می‌شود."
+            },
+            {
+                en: "Conquer your mind and you'll conquer the world.",
+                fa: "ذهن خود را تسخیر کن تا جهان را تسخیر کنی."
+            },
+            {
+                en: "Pursue excellence, not perfection.",
+                fa: "عالی بودن را دنبال کن، نه کامل بودن را."
+            },
+            {
+                en: "Hard work beats excuses.",
+                fa: "کار سخت بهانه‌ها را شکست می‌دهد."
+            },
+            {
+                en: "Life is 10% what happens and 90% how you respond.",
+                fa: "زندگی ۱۰٪ اتفاقات است و ۹۰٪ واکنش تو."
+            },
+            {
+                en: "Focus on progress, not perfection.",
+                fa: "روی پیشرفت تمرکز کن، نه بر کمال."
+            },
+            {
+                en: "Don't count the days, make the days count.",
+                fa: "روزها را نشمار، کاری کن که روزها به حساب بیایند."
+            },
+            {
+                en: "Doubt kills more dreams than failure ever will.",
+                fa: "شک بیش از هر شکستی رویاها را می‌کشد."
+            },
+            {
+                en: "Everything you've ever wanted is on the other side of fear.",
+                fa: "هر آنچه تاکنون خواسته‌ای در آن سوی ترس قرار دارد."
+            },
+            {
+                en: "Believe you can and you're halfway there.",
+                fa: "باور داشته باش که می‌توانی، نیمی از راه را رفته‌ای."
+            },
+            {
+                en: "Your time is limited, don't waste it living someone else's life.",
+                fa: "زمان تو محدود است، آن را با زندگی به سبک دیگران هدر نده."
+            },
+            {
+                en: "Do what you can, with what you have, where you are.",
+                fa: "هر کاری می‌توانی انجام بده، با هر چه داری، در هر کجا که هستی."
+            },
+            {
+                en: "Keep your face always toward the sunshine and shadows will fall behind you.",
+                fa: "همیشه رو به خورشید بایست تا سایه‌ها پشت سرت بیفتند."
+            },
+            {
+                en: "It always seems impossible until it's done.",
+                fa: "همیشه تا زمانی که کاری انجام نشده، غیرممکن به نظر می‌رسد."
+            },
+            {
+                en: "Turn your wounds into wisdom.",
+                fa: "زخم‌هایت را به حکمت تبدیل کن."
+            },
+            {
+                en: "Happiness depends upon ourselves.",
+                fa: "خوشبختی به خود ما بستگی دارد."
+            },
+            {
+                en: "Change the world by being yourself.",
+                fa: "با خود واقعی‌ات بودن، جهان را تغییر بده."
+            },
+            {
+                en: "Never regret anything that made you smile.",
+                fa: "هرگز از چیزی که لبخند به لبانت آورده پشیمان نشو."
+            },
+            {
+                en: "Die with memories, not dreams.",
+                fa: "با خاطرات بمیر، نه با رویاها."
+            },
+            {
+                en: "Aspire to inspire before we expire.",
+                fa: "تلاش کن تا قبل از پایان زندگی، الهام‌بخش باشی."
+            },
+            {
+                en: "Simplicity is the ultimate sophistication.",
+                fa: "سادگی، نهایت هوشمندی و ظرافت است."
+            },
+            {
+                en: "Whatever you are, be a good one.",
+                fa: "هر چه هستی، یک فرد خوب باش."
+            },
+            {
+                en: "To live will be an awfully big adventure.",
+                fa: "زندگی کردن یک ماجراجویی بسیار بزرگ خواهد بود."
+            },
+            {
+                en: "Try to be a rainbow in someone's cloud.",
+                fa: "سعی کن رنگین‌کمانی در ابرهای زندگی کسی باشی."
+            },
+            {
+                en: "Do one thing every day that scares you.",
+                fa: "هر روز کاری انجام بده که تو را می‌ترساند."
+            },
+            {
+                en: "Seize common occasions and make them great.",
+                fa: "فرصت‌های عادی را بگیر و آنها را بزرگ کن."
+            },
+            {
+                en: "Energy flows where attention goes.",
+                fa: "انرژی به جایی می‌رود که توجه به آن معطوف است."
+            },
+            {
+                en: "Little by little, one travels far.",
+                fa: "کم‌کم و قدم به قدم، می‌توان مسیرهای طولانی را پیمود."
+            },
+            {
+                en: "You don't have to be great to start, but you have to start to be great.",
+                fa: "لازم نیست عالی باشی تا شروع کنی، اما باید شروع کنی تا عالی شوی."
+            },
+            {
+                en: "Be the change that you wish to see in the world.",
+                fa: "همان تغییری باش که می‌خواهی در جهان ببینی."
+            },
+            {
+                en: "What we think, we become.",
+                fa: "ما همان چیزی می‌شویم که به آن می‌اندیشیم."
+            },
+            {
+                en: "Tough times never last, but tough people do.",
+                fa: "روزهای سخت هرگز پایدار نمی‌مانند، اما انسان‌های سخت چرا."
+            },
+            {
+                en: "Failure is not the opposite of success; it's part of success.",
+                fa: "شکست نقطه مقابل موفقیت نیست؛ بلکه بخشی از آن است."
+            },
+            {
+                en: "If you want to lift yourself up, lift up someone else.",
+                fa: "اگر می‌خواهی خودت را بالا بکشی، فرد دیگری را بالا بکش."
+            },
+            {
+                en: "Every moment is a fresh beginning.",
+                fa: "هر لحظه یک شروع تازه است."
+            },
+            {
+                en: "Light tomorrow with today.",
+                fa: "فردا را با امروز روشن کن."
+            }
+        ];
+
+
+        let currentIndex = -1;
+        let isLoading = false;
+
+        let particleAnimationId = null;
+
+
+        /* ---------------------------------------------------------
+           ELEMENTS
+        --------------------------------------------------------- */
+
+        const quoteCard =
+            document.getElementById("quote-card");
+
+        const enEl =
+            document.getElementById("english");
+
+        const faEl =
+            document.getElementById("persian");
+
+        const mainButton =
+            document.getElementById("main-btn");
+
+        const buttonText =
+            document.getElementById("button-text");
+
+        const canvas =
+            document.getElementById("canvas");
+
+        const ctx =
+            canvas.getContext("2d", {
+                alpha: true
+            });
+
+        const dot =
+            document.getElementById("cursor-dot");
+
+        const ring =
+            document.getElementById("cursor-ring");
+
+
+        /* ---------------------------------------------------------
+           RANDOM QUOTE
+        --------------------------------------------------------- */
+
+        function getRandomIndex() {
+            if (quotes.length <= 1) {
+                return 0;
+            }
+
+            let newIndex;
+
+            do {
+                newIndex =
+                    Math.floor(
+                        Math.random() * quotes.length
+                    );
+            } while (
+                newIndex === currentIndex
+            );
+
+            return newIndex;
         }
 
-        if (savedTheme === "light") {
-          document.body.classList.remove("dark-mode");
-        }
-      } catch (error) {
-        // Ignore storage errors.
-      }
-    }
 
-    /* ---------------------------------------------------------
-       KEYBOARD
-    --------------------------------------------------------- */
+        /* ---------------------------------------------------------
+           QUOTE LOADING STATE
+        --------------------------------------------------------- */
 
-    document.addEventListener("keydown", (event) => {
-      if (event.code !== "Space") {
-        return;
-      }
+        function setLoadingState(loading) {
+            isLoading = loading;
 
-      const activeElement = document.activeElement;
+            quoteCard.classList.toggle(
+                "is-loading",
+                loading
+            );
 
-      if (
-        activeElement &&
-        (
-          activeElement.tagName === "INPUT" ||
-          activeElement.tagName === "TEXTAREA" ||
-          activeElement.tagName === "SELECT"
-        )
-      ) {
-        return;
-      }
+            mainButton.classList.toggle(
+                "is-loading",
+                loading
+            );
 
-      event.preventDefault();
+            mainButton.disabled = loading;
 
-      const rect = mainButton.getBoundingClientRect();
-
-      changeQuotes({
-        clientX: rect.left + rect.width / 2,
-        clientY: rect.top + rect.height / 2
-      });
-    });
-
-    /* ---------------------------------------------------------
-       CUSTOM CURSOR
-       Desktop only
-    --------------------------------------------------------- */
-
-    const desktopPointer =
-      window.matchMedia(
-        "(min-width: 900px) and (hover: hover) and (pointer: fine)"
-      );
-
-    if (desktopPointer.matches) {
-      window.addEventListener("mousemove", (event) => {
-        if (!dot || !ring) {
-          return;
+            buttonText.textContent =
+                loading
+                    ? "Generating..."
+                    : "Get Inspired ✨";
         }
 
-        dot.style.left = `${event.clientX}px`;
-        dot.style.top = `${event.clientY}px`;
 
-        ring.style.left = `${event.clientX}px`;
-        ring.style.top = `${event.clientY}px`;
-      });
+        /* ---------------------------------------------------------
+           CHANGE QUOTE
+        --------------------------------------------------------- */
 
-      document
-        .querySelectorAll(".interactive")
-        .forEach((element) => {
-          element.addEventListener("mouseenter", () => {
-            document.body.classList.add("hovering");
-          });
+        function changeQuotes(event = null) {
+            if (isLoading) {
+                return;
+            }
 
-          element.addEventListener("mouseleave", () => {
-            document.body.classList.remove("hovering");
-          });
-        });
-    }
+            setLoadingState(true);
 
-    /* ---------------------------------------------------------
-       PARTICLES
-       Reduced count on mobile for performance.
-    --------------------------------------------------------- */
+            enEl.classList.remove("show");
+            faEl.classList.remove("show");
 
-    function resizeCanvas() {
-      const pixelRatio = Math.min(
-        window.devicePixelRatio || 1,
-        2
-      );
 
-      canvas.width =
-        Math.floor(window.innerWidth * pixelRatio);
+            /*
+             * Create particles at the click position.
+             */
+            if (
+                event &&
+                typeof event.clientX === "number"
+            ) {
+                createParticles(
+                    event.clientX,
+                    event.clientY
+                );
+            } else {
+                const rect =
+                    mainButton.getBoundingClientRect();
 
-      canvas.height =
-        Math.floor(window.innerHeight * pixelRatio);
+                createParticles(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2
+                );
+            }
 
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
 
-      ctx.setTransform(
-        pixelRatio,
-        0,
-        0,
-        pixelRatio,
-        0,
-        0
-      );
-    }
+            /*
+             * Let the loader breathe for a moment.
+             */
+            window.setTimeout(() => {
+                currentIndex =
+                    getRandomIndex();
 
-    let resizeTimeout;
+                const selected =
+                    quotes[currentIndex];
 
-    window.addEventListener("resize", () => {
-      window.clearTimeout(resizeTimeout);
+                enEl.textContent =
+                    selected.en;
 
-      resizeTimeout = window.setTimeout(() => {
+                faEl.textContent =
+                    selected.fa;
+
+
+                /*
+                 * Hide loader first.
+                 */
+                setLoadingState(false);
+
+
+                /*
+                 * Then animate the quote in.
+                 */
+                window.requestAnimationFrame(() => {
+                    enEl.classList.add("show");
+                    faEl.classList.add("show");
+                });
+
+            }, 650);
+        }
+
+
+        /* ---------------------------------------------------------
+           THEME
+        --------------------------------------------------------- */
+
+        function toggleTheme() {
+            const isDark =
+                document.body.classList.toggle(
+                    "dark-mode"
+                );
+
+            try {
+                localStorage.setItem(
+                    "daily-motivation-theme",
+                    isDark
+                        ? "dark"
+                        : "light"
+                );
+            } catch (error) {
+                /*
+                 * Storage may be unavailable
+                 * in private/restricted contexts.
+                 */
+            }
+        }
+
+
+        function restoreTheme() {
+            try {
+                const savedTheme =
+                    localStorage.getItem(
+                        "daily-motivation-theme"
+                    );
+
+                if (savedTheme === "dark") {
+                    document.body.classList.add(
+                        "dark-mode"
+                    );
+                }
+
+                if (savedTheme === "light") {
+                    document.body.classList.remove(
+                        "dark-mode"
+                    );
+                }
+
+            } catch (error) {
+                /*
+                 * Ignore storage errors.
+                 */
+            }
+        }
+
+
+        /* ---------------------------------------------------------
+           KEYBOARD
+        --------------------------------------------------------- */
+
+        document.addEventListener(
+            "keydown",
+            (event) => {
+                if (event.code !== "Space") {
+                    return;
+                }
+
+                const activeElement =
+                    document.activeElement;
+
+                if (
+                    activeElement &&
+                    (
+                        activeElement.tagName === "INPUT" ||
+                        activeElement.tagName === "TEXTAREA" ||
+                        activeElement.tagName === "SELECT"
+                    )
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                if (isLoading) {
+                    return;
+                }
+
+                const rect =
+                    mainButton.getBoundingClientRect();
+
+                changeQuotes({
+                    clientX:
+                        rect.left +
+                        rect.width / 2,
+
+                    clientY:
+                        rect.top +
+                        rect.height / 2
+                });
+            }
+        );
+
+
+        /* ---------------------------------------------------------
+           CUSTOM CURSOR
+           Desktop only
+        --------------------------------------------------------- */
+
+        const desktopPointer =
+            window.matchMedia(
+                "(min-width: 900px) and (hover: hover) and (pointer: fine)"
+            );
+
+        if (desktopPointer.matches) {
+
+            window.addEventListener(
+                "mousemove",
+                (event) => {
+                    if (!dot || !ring) {
+                        return;
+                    }
+
+                    dot.style.left =
+                        `${event.clientX}px`;
+
+                    dot.style.top =
+                        `${event.clientY}px`;
+
+                    ring.style.left =
+                        `${event.clientX}px`;
+
+                    ring.style.top =
+                        `${event.clientY}px`;
+                }
+            );
+
+
+            document
+                .querySelectorAll(".interactive")
+                .forEach((element) => {
+
+                    element.addEventListener(
+                        "mouseenter",
+                        () => {
+                            document.body.classList.add(
+                                "hovering"
+                            );
+                        }
+                    );
+
+                    element.addEventListener(
+                        "mouseleave",
+                        () => {
+                            document.body.classList.remove(
+                                "hovering"
+                            );
+                        }
+                    );
+
+                });
+        }
+
+
+        /* ---------------------------------------------------------
+           PARTICLES
+           Reduced count on mobile for performance.
+        --------------------------------------------------------- */
+
+        function resizeCanvas() {
+            const pixelRatio =
+                Math.min(
+                    window.devicePixelRatio || 1,
+                    2
+                );
+
+            canvas.width =
+                Math.floor(
+                    window.innerWidth *
+                    pixelRatio
+                );
+
+            canvas.height =
+                Math.floor(
+                    window.innerHeight *
+                    pixelRatio
+                );
+
+            canvas.style.width =
+                `${window.innerWidth}px`;
+
+            canvas.style.height =
+                `${window.innerHeight}px`;
+
+
+            ctx.setTransform(
+                pixelRatio,
+                0,
+                0,
+                pixelRatio,
+                0,
+                0
+            );
+        }
+
+
+        let resizeTimeout;
+
+        window.addEventListener(
+            "resize",
+            () => {
+                window.clearTimeout(
+                    resizeTimeout
+                );
+
+                resizeTimeout =
+                    window.setTimeout(
+                        () => {
+                            resizeCanvas();
+                        },
+                        120
+                    );
+            }
+        );
+
+
         resizeCanvas();
-      }, 120);
-    });
 
-    resizeCanvas();
 
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        class Particle {
 
-        this.size =
-          Math.random() * 5 + 2;
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
 
-        this.speedX =
-          (Math.random() - 0.5) * 8;
+                this.size =
+                    Math.random() * 5 + 2;
 
-        this.speedY =
-          (Math.random() - 0.5) * 8 - 2;
+                this.speedX =
+                    (Math.random() - 0.5) * 8;
 
-        this.color =
-          `hsl(${Math.random() * 60 + 240}, 80%, 65%)`;
+                this.speedY =
+                    (Math.random() - 0.5) * 8 - 2;
 
-        this.alpha = 1;
+                this.color =
+                    `hsl(${
+                        Math.random() * 60 + 240
+                    }, 80%, 65%)`;
 
-        this.decay =
-          Math.random() * 0.03 + 0.015;
-      }
+                this.alpha = 1;
 
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.alpha -= this.decay;
-      }
+                this.decay =
+                    Math.random() * 0.03 + 0.015;
+            }
 
-      draw() {
-        if (this.alpha <= 0) {
-          return;
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                this.alpha -= this.decay;
+            }
+
+
+            draw() {
+                if (this.alpha <= 0) {
+                    return;
+                }
+
+                ctx.save();
+
+                ctx.globalAlpha =
+                    this.alpha;
+
+                ctx.fillStyle =
+                    this.color;
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    this.x,
+                    this.y,
+                    this.size,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+                ctx.restore();
+            }
         }
 
-        ctx.save();
 
-        ctx.globalAlpha = this.alpha;
-        ctx.fillStyle = this.color;
+        let particles = [];
 
-        ctx.beginPath();
 
-        ctx.arc(
-          this.x,
-          this.y,
-          this.size,
-          0,
-          Math.PI * 2
-        );
+        function createParticles(x, y) {
 
-        ctx.fill();
+            const mobile =
+                window.matchMedia(
+                    "(max-width: 599px)"
+                ).matches;
 
-        ctx.restore();
-      }
-    }
+            const count =
+                mobile
+                    ? 10
+                    : 24;
 
-    function createParticles(x, y) {
-      const mobile =
-        window.matchMedia("(max-width: 599px)").matches;
 
-      const count = mobile ? 10 : 24;
+            for (
+                let i = 0;
+                i < count;
+                i++
+            ) {
+                particles.push(
+                    new Particle(x, y)
+                );
+            }
 
-      for (let i = 0; i < count; i++) {
-        particles.push(
-          new Particle(x, y)
-        );
-      }
 
-      // Prevent an accidental particle buildup.
-      if (particles.length > 120) {
-        particles = particles.slice(-120);
-      }
-    }
+            /*
+             * Prevent an accidental
+             * particle buildup.
+             */
+            if (particles.length > 120) {
+                particles =
+                    particles.slice(-120);
+            }
+        }
 
-    let particles = [];
 
-    function animateParticles() {
-      ctx.clearRect(
-        0,
-        0,
-        window.innerWidth,
-        window.innerHeight
-      );
+        function animateParticles() {
 
-      particles =
-        particles.filter(
-          (particle) => particle.alpha > 0
-        );
+            ctx.clearRect(
+                0,
+                0,
+                window.innerWidth,
+                window.innerHeight
+            );
 
-      for (const particle of particles) {
-        particle.update();
-        particle.draw();
-      }
 
-      particleAnimationId =
-        requestAnimationFrame(animateParticles);
-    }
+            particles =
+                particles.filter(
+                    (particle) =>
+                        particle.alpha > 0
+                );
 
-    /* ---------------------------------------------------------
-       INITIALIZE
-    --------------------------------------------------------- */
 
-    restoreTheme();
+            for (const particle of particles) {
+                particle.update();
+                particle.draw();
+            }
 
-    // Smaller motion workload when reduced motion is requested.
-    const reducedMotion =
-      window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
 
-    if (!reducedMotion) {
-      animateParticles();
-    }
+            particleAnimationId =
+                requestAnimationFrame(
+                    animateParticles
+                );
+        }
 
-    changeQuotes();
 
-  </script>
+        /* ---------------------------------------------------------
+           INITIALIZE
+        --------------------------------------------------------- */
+
+        restoreTheme();
+
+
+        const reducedMotion =
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+
+        if (!reducedMotion) {
+            animateParticles();
+        }
+
+
+        /*
+         * Initial loading state.
+         * The page opens with the orbital loader,
+         * then displays the first quote.
+         */
+        setLoadingState(true);
+
+
+        window.setTimeout(() => {
+            currentIndex =
+                getRandomIndex();
+
+            const selected =
+                quotes[currentIndex];
+
+            enEl.textContent =
+                selected.en;
+
+            faEl.textContent =
+                selected.fa;
+
+            setLoadingState(false);
+
+            window.requestAnimationFrame(() => {
+                enEl.classList.add("show");
+                faEl.classList.add("show");
+            });
+
+        }, 900);
+
+    </script>
+
 </body>
 </html>
