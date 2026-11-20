@@ -24,8 +24,6 @@
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
@@ -80,6 +78,9 @@
 
             --selection-bg: #8b5cf6;
             --selection-color: #ffffff;
+            --accent-color: #8b5cf6;
+            --accent-soft: rgba(139, 92, 246, 0.10);
+            --accent-border: rgba(139, 92, 246, 0.24);
 
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
@@ -126,6 +127,63 @@
         }
 
         /* ---------------------------------------------------------
+           PERSONALIZATION
+        --------------------------------------------------------- */
+
+        body[data-accent="ocean"] {
+            --btn-gradient: linear-gradient(135deg, #0ea5e9 0%, #2563eb 52%, #6366f1 100%);
+            --btn-glow: rgba(37, 99, 235, 0.38);
+            --selection-bg: #2563eb;
+            --accent-color: #2563eb;
+            --accent-soft: rgba(37, 99, 235, 0.10);
+            --accent-border: rgba(37, 99, 235, 0.25);
+            --glow-1: rgba(14, 165, 233, 0.16);
+            --glow-2: rgba(99, 102, 241, 0.16);
+        }
+
+        body[data-accent="rose"] {
+            --btn-gradient: linear-gradient(135deg, #f43f5e 0%, #e879f9 52%, #a855f7 100%);
+            --btn-glow: rgba(225, 29, 72, 0.34);
+            --selection-bg: #e11d48;
+            --accent-color: #e11d48;
+            --accent-soft: rgba(225, 29, 72, 0.10);
+            --accent-border: rgba(225, 29, 72, 0.24);
+            --glow-1: rgba(244, 63, 94, 0.15);
+            --glow-2: rgba(217, 70, 239, 0.15);
+        }
+
+        body[data-accent="emerald"] {
+            --btn-gradient: linear-gradient(135deg, #10b981 0%, #059669 52%, #0d9488 100%);
+            --btn-glow: rgba(5, 150, 105, 0.34);
+            --selection-bg: #059669;
+            --accent-color: #059669;
+            --accent-soft: rgba(5, 150, 105, 0.10);
+            --accent-border: rgba(5, 150, 105, 0.24);
+            --glow-1: rgba(16, 185, 129, 0.15);
+            --glow-2: rgba(13, 148, 136, 0.15);
+        }
+
+        body[data-quote-language="english"] #persian,
+        body[data-quote-language="persian"] #english,
+        body[data-quote-language="english"] .divider,
+        body[data-quote-language="persian"] .divider {
+            display: none;
+        }
+
+        body[data-quote-language="english"] .quote-card,
+        body[data-quote-language="persian"] .quote-card {
+            gap: 0;
+        }
+
+        body.effects-off #canvas {
+            display: none;
+        }
+
+        body.effects-off .heart {
+            animation: none;
+        }
+
+        /* ---------------------------------------------------------
            RESET
         --------------------------------------------------------- */
 
@@ -140,6 +198,10 @@
             min-height: 100%;
             background: #cbd5e1;
             overflow-x: hidden;
+        }
+
+        html.dark-mode {
+            background: #020617;
         }
 
         body {
@@ -530,7 +592,8 @@
         }
 
         .quote-card.is-loading .quote,
-        .quote-card.is-loading .divider {
+        .quote-card.is-loading .divider,
+        .quote-card.is-loading .daily-label {
             opacity: 0;
             pointer-events: none;
         }
@@ -783,6 +846,823 @@
 
             box-shadow:
                 0 5px 15px var(--btn-glow);
+        }
+
+        /* ---------------------------------------------------------
+           DAILY LABEL + QUICK ACTIONS
+        --------------------------------------------------------- */
+
+        .daily-label {
+            align-self: center;
+            padding: 7px 12px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 999px;
+            color: var(--text-muted);
+            background: rgba(139, 92, 246, 0.08);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .action-bar {
+            width: min(640px, 100%);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 16px;
+            z-index: 10;
+        }
+
+        .action-btn {
+            min-height: 42px;
+            padding: 9px 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 13px;
+            background: var(--icon-bg);
+            color: var(--icon-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.45);
+        }
+
+        .action-btn:active {
+            transform: scale(0.96);
+        }
+
+        .action-btn[aria-pressed="true"] {
+            color: #a855f7;
+            border-color: rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .action-icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .saved-count {
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: rgba(139, 92, 246, 0.14);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(54px + var(--safe-bottom));
+            z-index: 100;
+            max-width: calc(100% - 32px);
+            padding: 11px 16px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            background: var(--icon-bg);
+            color: var(--icon-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, 8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            pointer-events: none;
+        }
+
+        .toast.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0);
+        }
+
+        /* ---------------------------------------------------------
+           SAVED QUOTE LIBRARY + SETTINGS
+        --------------------------------------------------------- */
+
+        .favorites-backdrop,
+        .settings-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(2, 6, 23, 0.58);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .settings-backdrop {
+            z-index: 90;
+        }
+
+        .favorites-backdrop[hidden],
+        .settings-backdrop[hidden] {
+            display: none;
+        }
+
+        .favorites-dialog,
+        .settings-dialog {
+            width: min(760px, 100%);
+            max-height: min(84vh, 780px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 28px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            animation: modal-enter 0.24s ease both;
+        }
+
+        .settings-dialog {
+            width: min(620px, 100%);
+        }
+
+        @keyframes modal-enter {
+            from { opacity: 0; transform: translateY(12px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .library-header,
+        .settings-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 24px 26px 18px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+        }
+
+        .library-heading,
+        .settings-heading {
+            min-width: 0;
+        }
+
+        .library-eyebrow,
+        .settings-eyebrow {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--accent-color);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .favorites-title,
+        .settings-title {
+            margin: 0;
+            font-size: clamp(21px, 4vw, 26px);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+        }
+
+        .library-subtitle,
+        .settings-subtitle {
+            margin: 6px 0 0;
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .close-dialog-btn {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 14px;
+            background: var(--icon-bg);
+            color: var(--icon-color);
+            font-size: 21px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .close-dialog-btn:hover {
+            transform: rotate(5deg);
+            background: var(--accent-soft);
+        }
+
+        .library-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 17px 26px 14px;
+        }
+
+        .library-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .library-count strong {
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .library-clear-btn,
+        .settings-secondary-btn {
+            border: 0;
+            background: transparent;
+            color: var(--text-muted);
+            font: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .library-clear-btn:hover,
+        .settings-secondary-btn:hover {
+            color: #ef4444;
+        }
+
+        .library-clear-btn[hidden] {
+            display: none;
+        }
+
+        .library-tools {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 170px;
+            gap: 10px;
+            padding: 0 26px 18px;
+        }
+
+        .library-search-wrap {
+            position: relative;
+        }
+
+        .library-search-icon {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        .library-search,
+        .library-sort {
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid rgba(148, 163, 184, 0.19);
+            border-radius: 14px;
+            outline: none;
+            background: rgba(148, 163, 184, 0.07);
+            color: var(--text-main);
+            font: inherit;
+            font-size: 12px;
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .library-search {
+            padding: 0 14px 0 40px;
+        }
+
+        .library-sort {
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
+        .library-search:focus,
+        .library-sort:focus {
+            border-color: var(--accent-border);
+            background: var(--icon-bg);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .library-search::placeholder {
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        .favorites-list {
+            min-height: 0;
+            flex: 1 1 auto;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-content: start;
+            gap: 12px;
+            overflow-y: auto;
+            padding: 0 26px 26px;
+            overscroll-behavior: contain;
+        }
+
+        .favorites-list.has-single-item {
+            grid-template-columns: 1fr;
+        }
+
+        .favorite-entry {
+            min-width: 0;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.17);
+            border-radius: 19px;
+            background: linear-gradient(145deg, rgba(148, 163, 184, 0.10), rgba(148, 163, 184, 0.035));
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .favorite-entry:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-border);
+            background: var(--accent-soft);
+        }
+
+        .favorite-card-top,
+        .favorite-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .favorite-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--text-muted);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .favorite-number::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 0 4px var(--accent-soft);
+        }
+
+        .favorite-remove-btn,
+        .favorite-copy-btn {
+            min-width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-shrink: 0;
+            border: 1px solid rgba(148, 163, 184, 0.17);
+            border-radius: 11px;
+            background: var(--icon-bg);
+            color: var(--text-muted);
+            font: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+        }
+
+        .favorite-remove-btn:hover {
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.28);
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .favorite-copy-btn {
+            padding: 0 11px;
+        }
+
+        .favorite-copy-btn:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-border);
+            background: var(--accent-soft);
+        }
+
+        .favorite-open-btn {
+            width: 100%;
+            min-width: 0;
+            flex: 1;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 9px;
+            border: 0;
+            background: transparent;
+            color: var(--text-main);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .favorite-en,
+        .favorite-fa {
+            display: block;
+            width: 100%;
+            overflow-wrap: anywhere;
+            line-height: 1.55;
+        }
+
+        .favorite-en {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .favorite-fa {
+            color: var(--text-muted);
+            direction: rtl;
+            font-family: "Vazirmatn", sans-serif;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        body[data-quote-language="english"] .favorite-fa,
+        body[data-quote-language="persian"] .favorite-en {
+            display: none;
+        }
+
+        .favorite-hint {
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .favorites-empty-state {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 290px;
+            padding: 24px;
+            border: 1px dashed rgba(148, 163, 184, 0.28);
+            border-radius: 22px;
+            text-align: center;
+        }
+
+        .favorites-empty-icon {
+            width: 66px;
+            height: 66px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 16px;
+            border: 1px solid var(--accent-border);
+            border-radius: 22px;
+            background: var(--accent-soft);
+            color: var(--accent-color);
+            font-size: 27px;
+        }
+
+        .favorites-empty-title {
+            margin: 0;
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .favorites-empty-copy {
+            max-width: 310px;
+            margin: 8px 0 17px;
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .favorites-empty-action {
+            min-height: 39px;
+            padding: 0 15px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--btn-gradient);
+            color: white;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 18px var(--btn-glow);
+        }
+
+        /* Settings content */
+        .settings-content {
+            min-height: 0;
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 6px 26px 24px;
+            overscroll-behavior: contain;
+        }
+
+        .settings-section {
+            padding: 17px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+        }
+
+        .settings-section:last-child {
+            border-bottom: 0;
+        }
+
+        .settings-section-title {
+            margin: 0 0 13px;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 11px 0;
+        }
+
+        .setting-copy {
+            min-width: 0;
+        }
+
+        .setting-label {
+            display: block;
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .setting-description {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .setting-options {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 4px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 13px;
+            background: rgba(148, 163, 184, 0.07);
+        }
+
+        .setting-option {
+            min-height: 32px;
+            padding: 0 11px;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--text-muted);
+            font: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .setting-option[aria-pressed="true"] {
+            background: var(--icon-bg);
+            color: var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .accent-options {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .accent-swatch {
+            width: 27px;
+            height: 27px;
+            padding: 0;
+            border: 3px solid var(--card-bg);
+            border-radius: 50%;
+            outline: 1px solid transparent;
+            cursor: pointer;
+            transition: transform 0.2s ease, outline-color 0.2s ease;
+        }
+
+        .accent-swatch:hover {
+            transform: scale(1.12);
+        }
+
+        .accent-swatch[aria-pressed="true"] {
+            outline-color: var(--text-main);
+            transform: scale(1.08);
+        }
+
+        .accent-swatch[data-accent="violet"] { background: linear-gradient(135deg, #8b5cf6, #d946ef); }
+        .accent-swatch[data-accent="ocean"] { background: linear-gradient(135deg, #0ea5e9, #4f46e5); }
+        .accent-swatch[data-accent="rose"] { background: linear-gradient(135deg, #f43f5e, #c026d3); }
+        .accent-swatch[data-accent="emerald"] { background: linear-gradient(135deg, #10b981, #0d9488); }
+
+        .setting-switch {
+            position: relative;
+            width: 46px;
+            height: 27px;
+            flex: 0 0 46px;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.36);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .setting-switch::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .setting-switch[aria-checked="true"] {
+            background: var(--accent-color);
+        }
+
+        .setting-switch[aria-checked="true"]::after {
+            transform: translateX(19px);
+        }
+
+        .settings-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 26px 20px;
+            border-top: 1px solid rgba(148, 163, 184, 0.14);
+        }
+
+        .settings-footer-note {
+            color: var(--text-muted);
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .settings-footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .settings-primary-btn {
+            min-height: 38px;
+            padding: 0 13px;
+            border: 1px solid var(--accent-border);
+            border-radius: 11px;
+            background: var(--accent-soft);
+            color: var(--accent-color);
+            font: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .favorites-dialog :focus-visible,
+        .settings-dialog :focus-visible,
+        .top-controls :focus-visible {
+            outline: 3px solid var(--accent-border);
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 650px) {
+            .favorites-dialog,
+            .settings-dialog {
+                max-height: min(94vh, 850px);
+                max-height: min(94dvh, 850px);
+                border-radius: 23px;
+            }
+
+            .library-header,
+            .settings-header {
+                padding: 17px 18px 12px;
+            }
+
+            .library-toolbar {
+                padding: 14px 18px 12px;
+            }
+
+            .library-tools {
+                grid-template-columns: 1fr;
+                padding: 0 18px 15px;
+            }
+
+            .favorites-list {
+                grid-template-columns: 1fr;
+                padding: 0 18px 19px;
+            }
+
+            .favorite-entry {
+                min-height: 160px;
+            }
+
+            .settings-content {
+                padding: 0 18px 12px;
+            }
+
+            .settings-section {
+                padding: 10px 0;
+            }
+
+            .settings-section-title {
+                margin-bottom: 8px;
+            }
+
+            .setting-row {
+                padding: 8px 0;
+            }
+
+            .setting-description {
+                margin-top: 3px;
+                line-height: 1.4;
+            }
+
+            .settings-footer {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 8px 18px 11px;
+            }
+
+            .settings-footer-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .setting-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .setting-toggle-row {
+                align-items: center;
+                flex-direction: row;
+                gap: 12px;
+            }
+
+            .setting-toggle-row .setting-copy {
+                flex: 1;
+            }
+
+            .setting-options {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .setting-options .setting-option {
+                flex: 1;
+                padding: 0 7px;
+            }
+
+            .accent-options {
+                align-self: flex-start;
+            }
         }
 
         /* ---------------------------------------------------------
@@ -1170,6 +2050,62 @@
                 animation: none;
             }
         }
+        /* Refined header controls and close buttons */
+        .top-controls {
+            gap: 4px;
+            padding: 5px;
+            border-radius: 999px;
+            background: var(--icon-bg);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .top-controls .icon-btn {
+            width: 38px;
+            height: 38px;
+            background: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-radius: 999px;
+        }
+
+        .top-controls .icon-btn:hover {
+            transform: none;
+            background: var(--accent-soft);
+            color: var(--accent-color);
+        }
+
+        .top-controls .icon-btn:active {
+            transform: scale(0.92);
+        }
+
+        .top-controls .icon-btn svg {
+            display: block;
+            width: 18px;
+            height: 18px;
+        }
+
+        .close-dialog-btn {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            border-radius: 12px;
+        }
+
+        .close-dialog-btn:hover {
+            transform: none;
+            color: var(--accent-color);
+            background: var(--accent-soft);
+        }
+
+        .close-dialog-btn svg {
+            display: block;
+            width: 16px;
+            height: 16px;
+        }
     </style>
 </head>
 
@@ -1199,20 +2135,22 @@
     ></canvas>
 
 
-    <!-- Theme -->
-    <div class="top-controls">
-
+    <!-- Appearance and settings -->
+    <div class="top-controls" aria-label="App controls">
         <button
             type="button"
             class="icon-btn interactive"
-            onclick="toggleTheme()"
-            title="Toggle Theme"
-            aria-label="Toggle theme"
             id="theme-btn"
-        >
-            🌓
-        </button>
-
+            title="Switch theme"
+            aria-label="Switch theme"
+        ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+        <button
+            type="button"
+            class="icon-btn interactive"
+            id="settings-open-btn"
+            title="Settings"
+            aria-label="Open settings"
+        ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></button>
     </div>
 
 
@@ -1285,10 +2223,13 @@
             </div>
 
 
+            <div class="daily-label" id="daily-label">Quote of the day</div>
+
             <!-- English Quote -->
             <div
                 id="english"
                 class="quote"
+                lang="en"
             ></div>
 
 
@@ -1299,9 +2240,33 @@
             <div
                 id="persian"
                 class="quote"
+                lang="fa"
+                dir="rtl"
             ></div>
 
         </section>
+
+
+        <!-- Quick quote actions -->
+        <div class="action-bar" aria-label="Quote actions">
+            <button type="button" class="action-btn interactive" id="favorite-btn" aria-pressed="false" title="Save this quote">
+                <span class="action-icon" id="favorite-icon" aria-hidden="true">♡</span>
+                <span id="favorite-text">Save</span>
+            </button>
+            <button type="button" class="action-btn interactive" id="copy-btn" title="Copy quote">
+                <span class="action-icon" aria-hidden="true">⧉</span>
+                <span>Copy</span>
+            </button>
+            <button type="button" class="action-btn interactive" id="share-btn" title="Share quote">
+                <span class="action-icon" aria-hidden="true">↗</span>
+                <span>Share</span>
+            </button>
+            <button type="button" class="action-btn interactive" id="favorites-open-btn" title="View saved quotes">
+                <span class="action-icon" aria-hidden="true">♥</span>
+                <span>Saved</span>
+                <span class="saved-count" id="saved-count">0</span>
+            </button>
+        </div>
 
 
         <!-- Button -->
@@ -1359,10 +2324,130 @@
     </main>
 
 
+    <!-- Saved quote library -->
+    <div class="favorites-backdrop" id="favorites-backdrop" hidden>
+        <section class="favorites-dialog" role="dialog" aria-modal="true" aria-labelledby="favorites-title" tabindex="-1">
+            <header class="library-header">
+                <div class="library-heading">
+                    <span class="library-eyebrow">Your personal collection</span>
+                    <h2 class="favorites-title" id="favorites-title">Saved quotes</h2>
+                    <p class="library-subtitle">Keep the words that matter close.</p>
+                </div>
+                <button type="button" class="close-dialog-btn" id="favorites-close-btn" aria-label="Close saved quotes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </header>
+            <div class="library-toolbar">
+                <div class="library-count"><strong id="favorites-count-number">0</strong><span id="favorites-count-label">quotes saved</span></div>
+                <button type="button" class="library-clear-btn" id="favorites-clear-btn" hidden>Clear all</button>
+            </div>
+            <div class="library-tools">
+                <label class="library-search-wrap">
+                    <span class="library-search-icon" aria-hidden="true">⌕</span>
+                    <input class="library-search" id="favorites-search" type="search" placeholder="Search your saved quotes..." autocomplete="off" aria-label="Search saved quotes">
+                </label>
+                <select class="library-sort" id="favorites-sort" aria-label="Sort saved quotes">
+                    <option value="newest">Recently saved</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="az">A to Z</option>
+                </select>
+            </div>
+            <div class="favorites-list" id="favorites-list" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <!-- App settings -->
+    <div class="settings-backdrop" id="settings-backdrop" hidden>
+        <section class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
+            <header class="settings-header">
+                <div class="settings-heading">
+                    <span class="settings-eyebrow">Make it yours</span>
+                    <h2 class="settings-title" id="settings-title">Settings</h2>
+                    <p class="settings-subtitle">A few small choices to make your daily experience feel right.</p>
+                </div>
+                <button type="button" class="close-dialog-btn" id="settings-close-btn" aria-label="Close settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </header>
+
+            <div class="settings-content">
+                <section class="settings-section">
+                    <h3 class="settings-section-title">Appearance</h3>
+                    <div class="setting-row">
+                        <div class="setting-copy">
+                            <span class="setting-label">Theme</span>
+                            <span class="setting-description">Choose how the app looks.</span>
+                        </div>
+                        <div class="setting-options" id="theme-options" role="group" aria-label="Theme">
+                            <button type="button" class="setting-option" data-theme="system" aria-pressed="false">System</button>
+                            <button type="button" class="setting-option" data-theme="light" aria-pressed="false">Light</button>
+                            <button type="button" class="setting-option" data-theme="dark" aria-pressed="false">Dark</button>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-copy">
+                            <span class="setting-label">Accent color</span>
+                            <span class="setting-description">Give the gradients and highlights a different mood.</span>
+                        </div>
+                        <div class="accent-options" id="accent-options" role="group" aria-label="Accent color">
+                            <button type="button" class="accent-swatch" data-accent="violet" aria-label="Violet accent" title="Violet" aria-pressed="false"></button>
+                            <button type="button" class="accent-swatch" data-accent="ocean" aria-label="Ocean accent" title="Ocean" aria-pressed="false"></button>
+                            <button type="button" class="accent-swatch" data-accent="rose" aria-label="Rose accent" title="Rose" aria-pressed="false"></button>
+                            <button type="button" class="accent-swatch" data-accent="emerald" aria-label="Emerald accent" title="Emerald" aria-pressed="false"></button>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-copy">
+                            <span class="setting-label">Quote language</span>
+                            <span class="setting-description">Show English, Persian, or both together.</span>
+                        </div>
+                        <div class="setting-options" id="language-options" role="group" aria-label="Quote language">
+                            <button type="button" class="setting-option" data-language="both" aria-pressed="false">Both</button>
+                            <button type="button" class="setting-option" data-language="english" aria-pressed="false">English</button>
+                            <button type="button" class="setting-option" data-language="persian" aria-pressed="false">فارسی</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-section">
+                    <h3 class="settings-section-title">Your experience</h3>
+                    <div class="setting-row setting-toggle-row">
+                        <div class="setting-copy">
+                            <span class="setting-label">Start with quote of the day</span>
+                            <span class="setting-description">Open the app with the same daily quote instead of a random one.</span>
+                        </div>
+                        <button type="button" class="setting-switch" id="setting-daily-quote" role="switch" aria-checked="true" aria-label="Start with quote of the day"></button>
+                    </div>
+                    <div class="setting-row setting-toggle-row">
+                        <div class="setting-copy">
+                            <span class="setting-label">Particle effects</span>
+                            <span class="setting-description">Show the small bursts when you generate a new quote.</span>
+                        </div>
+                        <button type="button" class="setting-switch" id="setting-particles" role="switch" aria-checked="true" aria-label="Particle effects"></button>
+                    </div>
+                    <div class="setting-row setting-toggle-row">
+                        <div class="setting-copy">
+                            <span class="setting-label">Spacebar shortcut</span>
+                            <span class="setting-description">Press Space anywhere outside controls to get another quote.</span>
+                        </div>
+                        <button type="button" class="setting-switch" id="setting-shortcuts" role="switch" aria-checked="true" aria-label="Spacebar shortcut"></button>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="settings-footer">
+                <span class="settings-footer-note">Your preferences stay on this device.</span>
+                <div class="settings-footer-actions">
+                    <button type="button" class="settings-secondary-btn" id="reset-settings-btn">Restore defaults</button>
+                    <button type="button" class="settings-primary-btn" id="export-favorites-btn">Export saved</button>
+                </div>
+            </footer>
+        </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
     <!-- Hint -->
     <div class="hint">
 
-        <span class="desktop-hint">
+        <span class="desktop-hint" id="desktop-hint">
             Press Spacebar to Generate
         </span>
 
@@ -1562,7 +2647,7 @@
             },
             {
                 en: "Tough times never last, but tough people do.",
-                fa: "روزهای سخت هرگز پایدار نمی‌مانند، اما انسان‌های سخت چرا."
+                fa: "روزهای سخت هرگز پایدار نمی‌مانند، اما انسان‌های سخت پایدار می‌مانند."
             },
             {
                 en: "Failure is not the opposite of success; it's part of success.",
@@ -1583,10 +2668,31 @@
         ];
 
 
+        const DEFAULT_SETTINGS = {
+            theme: "system",
+            accent: "violet",
+            quoteLanguage: "both",
+            dailyQuoteOnStart: true,
+            particleEffects: true,
+            keyboardShortcuts: true
+        };
+
+
         let currentIndex = -1;
         let isLoading = false;
-
+        let dailyQuoteIndex = -1;
+        let recentIndices = [];
+        let favorites = loadFavorites();
+        let settings = loadSettings();
+        let favoritesSearch = "";
+        let favoritesSort = "newest";
+        let toastTimeout = null;
         let particleAnimationId = null;
+
+        const reducedMotion =
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
 
 
         /* ---------------------------------------------------------
@@ -1622,28 +2728,614 @@
         const ring =
             document.getElementById("cursor-ring");
 
+        const favoriteButton =
+            document.getElementById("favorite-btn");
+
+        const favoriteIcon =
+            document.getElementById("favorite-icon");
+
+        const favoriteText =
+            document.getElementById("favorite-text");
+
+        const savedCount =
+            document.getElementById("saved-count");
+
+        const favoritesBackdrop =
+            document.getElementById("favorites-backdrop");
+
+        const favoritesList =
+            document.getElementById("favorites-list");
+
+        const favoritesDialog =
+            document.querySelector(".favorites-dialog");
+
+        const favoritesOpenButton =
+            document.getElementById("favorites-open-btn");
+
+        const favoritesCloseButton =
+            document.getElementById("favorites-close-btn");
+
+        const toast =
+            document.getElementById("toast");
+
+        const dailyLabel =
+            document.getElementById("daily-label");
+
+        const themeButton = document.getElementById("theme-btn");
+        const settingsOpenButton = document.getElementById("settings-open-btn");
+        const settingsBackdrop = document.getElementById("settings-backdrop");
+        const settingsDialog = document.querySelector(".settings-dialog");
+        const settingsCloseButton = document.getElementById("settings-close-btn");
+        const favoritesSearchInput = document.getElementById("favorites-search");
+        const favoritesSortSelect = document.getElementById("favorites-sort");
+        const favoritesCountNumber = document.getElementById("favorites-count-number");
+        const favoritesCountLabel = document.getElementById("favorites-count-label");
+        const favoritesClearButton = document.getElementById("favorites-clear-btn");
+        const desktopHint = document.getElementById("desktop-hint");
+
 
         /* ---------------------------------------------------------
-           RANDOM QUOTE
+           STORAGE + QUOTE SELECTION
         --------------------------------------------------------- */
+
+        function loadSettings() {
+            try {
+                const stored = JSON.parse(
+                    localStorage.getItem("daily-motivation-settings") || "null"
+                );
+
+                if (stored && typeof stored === "object" && !Array.isArray(stored)) {
+                    const merged = { ...DEFAULT_SETTINGS, ...stored };
+                    if (!["system", "light", "dark"].includes(merged.theme)) merged.theme = "system";
+                    if (!["violet", "ocean", "rose", "emerald"].includes(merged.accent)) merged.accent = "violet";
+                    if (!["both", "english", "persian"].includes(merged.quoteLanguage)) merged.quoteLanguage = "both";
+                    merged.dailyQuoteOnStart = Boolean(merged.dailyQuoteOnStart);
+                    merged.particleEffects = Boolean(merged.particleEffects);
+                    merged.keyboardShortcuts = Boolean(merged.keyboardShortcuts);
+                    return merged;
+                }
+
+                // Migrate the theme preference saved by earlier versions.
+                const legacyTheme = localStorage.getItem("daily-motivation-theme");
+                if (legacyTheme === "light" || legacyTheme === "dark") {
+                    return { ...DEFAULT_SETTINGS, theme: legacyTheme };
+                }
+            } catch (error) {
+                // Continue with defaults when browser storage is unavailable.
+            }
+
+            return { ...DEFAULT_SETTINGS };
+        }
+
+
+        function saveSettings() {
+            try {
+                localStorage.setItem(
+                    "daily-motivation-settings",
+                    JSON.stringify(settings)
+                );
+                return true;
+            } catch (error) {
+                showToast("Settings could not be saved on this device.");
+                return false;
+            }
+        }
+
+
+        function applySettings() {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const useDark = settings.theme === "dark" || (settings.theme === "system" && prefersDark);
+
+            document.body.classList.toggle("dark-mode", useDark);
+            document.documentElement.classList.toggle("dark-mode", useDark);
+            document.body.classList.toggle("effects-off", !settings.particleEffects || reducedMotion);
+            document.body.dataset.accent = settings.accent;
+            document.body.dataset.quoteLanguage = settings.quoteLanguage;
+
+            themeButton.innerHTML = useDark ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+            themeButton.title = useDark ? "Switch to light mode" : "Switch to dark mode";
+            themeButton.setAttribute("aria-label", themeButton.title);
+
+            if (!settings.particleEffects || reducedMotion) {
+                particles = [];
+                if (particleAnimationId !== null) {
+                    cancelAnimationFrame(particleAnimationId);
+                    particleAnimationId = null;
+                }
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            }
+
+            updateSettingsUI();
+        }
+
+
+        function updateSettingsUI() {
+            document.querySelectorAll("[data-theme]").forEach((button) => {
+                button.setAttribute("aria-pressed", String(button.dataset.theme === settings.theme));
+            });
+
+            document.querySelectorAll("[data-accent]").forEach((button) => {
+                if (button.classList.contains("accent-swatch")) {
+                    button.setAttribute("aria-pressed", String(button.dataset.accent === settings.accent));
+                }
+            });
+
+            document.querySelectorAll("[data-language]").forEach((button) => {
+                button.setAttribute("aria-pressed", String(button.dataset.language === settings.quoteLanguage));
+            });
+
+            document.getElementById("setting-daily-quote").setAttribute("aria-checked", String(settings.dailyQuoteOnStart));
+            document.getElementById("setting-particles").setAttribute("aria-checked", String(settings.particleEffects));
+            document.getElementById("setting-shortcuts").setAttribute("aria-checked", String(settings.keyboardShortcuts));
+            desktopHint.textContent = settings.keyboardShortcuts
+                ? "Press Spacebar to Generate"
+                : "Use the button to get inspired";
+        }
+
+
+        function updateSetting(key, value) {
+            settings[key] = value;
+            saveSettings();
+            applySettings();
+        }
+
+
+        function openSettings() {
+            settingsBackdrop.hidden = false;
+            settingsCloseButton.focus();
+        }
+
+
+        function closeSettings() {
+            if (settingsBackdrop.hidden) return;
+            settingsBackdrop.hidden = true;
+            settingsOpenButton.focus();
+        }
+
+
+        function exportFavorites() {
+            if (favorites.length === 0) {
+                showToast("There are no saved quotes to export yet.");
+                return;
+            }
+
+            const content = favorites.map((index, position) => {
+                const quote = quotes[index];
+                return `${position + 1}. ${quote.en}\n${quote.fa}`;
+            }).join("\n\n");
+            const blob = new Blob([`My saved quotes\n\n${content}\n`], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "my-saved-quotes.txt";
+            document.body.append(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showToast("Your saved quotes have been exported.");
+        }
+
+
+        function restoreDefaultSettings() {
+            settings = { ...DEFAULT_SETTINGS };
+            saveSettings();
+            applySettings();
+            showToast("Settings restored to defaults.");
+        }
+
+
+        function loadFavorites() {
+            try {
+                const stored = JSON.parse(
+                    localStorage.getItem("daily-motivation-favorites") || "[]"
+                );
+
+                if (!Array.isArray(stored)) {
+                    return [];
+                }
+
+                return [...new Set(stored)].filter(
+                    (index) =>
+                        Number.isInteger(index) &&
+                        index >= 0 &&
+                        index < quotes.length
+                );
+            } catch (error) {
+                return [];
+            }
+        }
+
+
+        function saveFavorites() {
+            try {
+                localStorage.setItem(
+                    "daily-motivation-favorites",
+                    JSON.stringify(favorites)
+                );
+            } catch (error) {
+                showToast("Could not save favorites on this device.");
+            }
+        }
+
+
+        function getDailyQuoteIndex() {
+            const now = new Date();
+            const dateKey = [
+                now.getFullYear(),
+                now.getMonth() + 1,
+                now.getDate()
+            ].join("-");
+
+            let hash = 0;
+            for (let i = 0; i < dateKey.length; i++) {
+                hash = ((hash << 5) - hash) + dateKey.charCodeAt(i);
+                hash |= 0;
+            }
+
+            return Math.abs(hash) % quotes.length;
+        }
+
 
         function getRandomIndex() {
             if (quotes.length <= 1) {
                 return 0;
             }
 
-            let newIndex;
+            const recent = new Set(recentIndices.slice(-5));
+            let candidates = quotes
+                .map((_, index) => index)
+                .filter((index) => index !== currentIndex && !recent.has(index));
 
-            do {
-                newIndex =
-                    Math.floor(
-                        Math.random() * quotes.length
-                    );
-            } while (
-                newIndex === currentIndex
+            if (candidates.length === 0) {
+                candidates = quotes
+                    .map((_, index) => index)
+                    .filter((index) => index !== currentIndex);
+            }
+
+            return candidates[Math.floor(Math.random() * candidates.length)];
+        }
+
+
+        function getQuoteText(quote) {
+            if (!quote) return "";
+            if (settings.quoteLanguage === "english") return quote.en;
+            if (settings.quoteLanguage === "persian") return quote.fa;
+            return `${quote.en}\n\n${quote.fa}`;
+        }
+
+
+        function getCurrentQuoteText() {
+            if (currentIndex < 0) return "";
+            return getQuoteText(quotes[currentIndex]);
+        }
+
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add("is-visible");
+
+            window.clearTimeout(toastTimeout);
+            toastTimeout = window.setTimeout(() => {
+                toast.classList.remove("is-visible");
+            }, 1900);
+        }
+
+
+        function updateFavoriteButton() {
+            const isFavorite = favorites.includes(currentIndex);
+
+            favoriteButton.setAttribute(
+                "aria-pressed",
+                String(isFavorite)
             );
+            favoriteButton.title = isFavorite
+                ? "Remove from favorites"
+                : "Save this quote";
+            favoriteIcon.textContent = isFavorite ? "♥" : "♡";
+            favoriteText.textContent = isFavorite ? "Saved" : "Save";
+            savedCount.textContent = String(favorites.length);
+        }
 
-            return newIndex;
+
+        function renderFavorites() {
+            favoritesList.replaceChildren();
+            favoritesList.classList.remove("has-single-item");
+            savedCount.textContent = String(favorites.length);
+            favoritesCountNumber.textContent = String(favorites.length);
+            favoritesCountLabel.textContent = favorites.length === 1 ? "quote saved" : "quotes saved";
+            favoritesClearButton.hidden = favorites.length === 0;
+
+            if (favorites.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "favorites-empty-state";
+
+                const icon = document.createElement("div");
+                icon.className = "favorites-empty-icon";
+                icon.textContent = "♡";
+                icon.setAttribute("aria-hidden", "true");
+
+                const title = document.createElement("h3");
+                title.className = "favorites-empty-title";
+                title.textContent = "Your collection starts here";
+
+                const copy = document.createElement("p");
+                copy.className = "favorites-empty-copy";
+                copy.textContent = "When a quote speaks to you, tap Save. It will be waiting for you here whenever you need it.";
+
+                const action = document.createElement("button");
+                action.type = "button";
+                action.className = "favorites-empty-action";
+                action.textContent = "Explore quotes";
+                action.addEventListener("click", closeFavorites);
+
+                empty.append(icon, title, copy, action);
+                favoritesList.append(empty);
+                return;
+            }
+
+            const search = favoritesSearch.trim().toLocaleLowerCase();
+            let visibleFavorites = [...favorites];
+
+            if (favoritesSort === "az") {
+                visibleFavorites.sort((a, b) => quotes[a].en.localeCompare(quotes[b].en));
+            } else if (favoritesSort === "newest") {
+                visibleFavorites.reverse();
+            }
+            // "oldest" keeps insertion order, which is already oldest first.
+
+            if (search) {
+                visibleFavorites = visibleFavorites.filter((index) => {
+                    const quote = quotes[index];
+                    return `${quote.en} ${quote.fa}`.toLocaleLowerCase().includes(search);
+                });
+            }
+
+            favoritesList.classList.toggle("has-single-item", visibleFavorites.length === 1);
+
+            if (visibleFavorites.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "favorites-empty-state";
+                const icon = document.createElement("div");
+                icon.className = "favorites-empty-icon";
+                icon.textContent = "⌕";
+                const title = document.createElement("h3");
+                title.className = "favorites-empty-title";
+                title.textContent = "No matches found";
+                const copy = document.createElement("p");
+                copy.className = "favorites-empty-copy";
+                copy.textContent = "Try a different word or clear your search to see your saved quotes.";
+                const action = document.createElement("button");
+                action.type = "button";
+                action.className = "favorites-empty-action";
+                action.textContent = "Clear search";
+                action.addEventListener("click", () => {
+                    favoritesSearch = "";
+                    favoritesSearchInput.value = "";
+                    renderFavorites();
+                    favoritesSearchInput.focus();
+                });
+                empty.append(icon, title, copy, action);
+                favoritesList.append(empty);
+                return;
+            }
+
+            visibleFavorites.forEach((index) => {
+                const quote = quotes[index];
+                const entry = document.createElement("article");
+                entry.className = "favorite-entry";
+
+                const top = document.createElement("div");
+                top.className = "favorite-card-top";
+
+                const number = document.createElement("span");
+                number.className = "favorite-number";
+                number.textContent = `Saved quote ${String(favorites.indexOf(index) + 1).padStart(2, "0")}`;
+
+                const removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.className = "favorite-remove-btn";
+                removeButton.textContent = "×";
+                removeButton.title = "Remove from saved";
+                removeButton.setAttribute("aria-label", "Remove saved quote");
+                removeButton.addEventListener("click", () => {
+                    removeFavorite(index);
+                    renderFavorites();
+                });
+                top.append(number, removeButton);
+
+                const openButton = document.createElement("button");
+                openButton.type = "button";
+                openButton.className = "favorite-open-btn";
+                openButton.setAttribute("aria-label", "Open saved quote");
+
+                const english = document.createElement("span");
+                english.className = "favorite-en";
+                english.textContent = quote.en;
+
+                const persian = document.createElement("span");
+                persian.className = "favorite-fa";
+                persian.textContent = quote.fa;
+                openButton.append(english, persian);
+                openButton.addEventListener("click", () => {
+                    displayQuote(index);
+                    closeFavorites();
+                    showToast("Saved quote opened.");
+                });
+
+                const footer = document.createElement("div");
+                footer.className = "favorite-card-footer";
+                const hint = document.createElement("span");
+                hint.className = "favorite-hint";
+                hint.textContent = "Tap the quote to view it";
+
+                const copyButton = document.createElement("button");
+                copyButton.type = "button";
+                copyButton.className = "favorite-copy-btn";
+                copyButton.textContent = "Copy";
+                copyButton.setAttribute("aria-label", "Copy saved quote");
+                copyButton.addEventListener("click", () => copyQuote(quote));
+                footer.append(hint, copyButton);
+
+                entry.append(top, openButton, footer);
+                favoritesList.append(entry);
+            });
+        }
+
+
+
+        function toggleFavorite() {
+            if (currentIndex < 0) {
+                return;
+            }
+
+            if (favorites.includes(currentIndex)) {
+                favorites = favorites.filter((index) => index !== currentIndex);
+                showToast("Removed from favorites.");
+            } else {
+                favorites.push(currentIndex);
+                showToast("Added to favorites.");
+            }
+
+            saveFavorites();
+            updateFavoriteButton();
+            renderFavorites();
+        }
+
+
+        function removeFavorite(index) {
+            favorites = favorites.filter((item) => item !== index);
+            saveFavorites();
+            updateFavoriteButton();
+            showToast("Removed from favorites.");
+        }
+
+
+        function clearFavorites() {
+            if (favorites.length === 0) return;
+            const confirmed = window.confirm("Remove all saved quotes? This cannot be undone.");
+            if (!confirmed) return;
+            favorites = [];
+            saveFavorites();
+            updateFavoriteButton();
+            renderFavorites();
+            showToast("Your saved collection is now empty.");
+        }
+
+
+        function openFavorites() {
+            renderFavorites();
+            favoritesBackdrop.hidden = false;
+            favoritesCloseButton.focus();
+        }
+
+
+        function closeFavorites() {
+            if (favoritesBackdrop.hidden) return;
+            favoritesBackdrop.hidden = true;
+            favoritesOpenButton.focus();
+        }
+
+
+        function trapDialogFocus(event, dialog) {
+            if (event.key !== "Tab") return;
+            const focusable = [...dialog.querySelectorAll(
+                'button:not([disabled]):not([hidden]), input:not([disabled]):not([hidden]), select:not([disabled]):not([hidden]), [href], [tabindex]:not([tabindex="-1"])'
+            )].filter((element) => element.offsetParent !== null);
+
+            if (focusable.length === 0) {
+                event.preventDefault();
+                dialog.focus();
+                return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+
+
+        function displayQuote(index) {
+            currentIndex = index;
+            dailyLabel.textContent = index === dailyQuoteIndex
+                ? "Quote of the day"
+                : "A little inspiration";
+            recentIndices.push(index);
+            recentIndices = recentIndices.slice(-6);
+
+            const selected = quotes[currentIndex];
+            enEl.textContent = selected.en;
+            faEl.textContent = selected.fa;
+            enEl.classList.add("show");
+            faEl.classList.add("show");
+            updateFavoriteButton();
+        }
+
+
+        async function copyQuote(quote) {
+            const text = getQuoteText(quote);
+            if (!text) return;
+            await copyText(text);
+        }
+
+
+        async function copyText(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const temporary = document.createElement("textarea");
+                    temporary.value = text;
+                    temporary.setAttribute("readonly", "");
+                    temporary.style.position = "fixed";
+                    temporary.style.opacity = "0";
+                    document.body.append(temporary);
+                    temporary.select();
+                    const copied = document.execCommand("copy");
+                    temporary.remove();
+                    if (!copied) throw new Error("Clipboard copy failed");
+                }
+                showToast("Quote copied to clipboard.");
+            } catch (error) {
+                showToast("Could not copy the quote. Please try again.");
+            }
+        }
+
+
+        async function copyCurrentQuote() {
+            const text = getCurrentQuoteText();
+            if (!text) return;
+            await copyText(text);
+        }
+
+
+
+        async function shareCurrentQuote() {
+            const text = getCurrentQuoteText();
+            if (!text) {
+                return;
+            }
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "Daily Motivation",
+                        text
+                    });
+                } catch (error) {
+                    if (error.name !== "AbortError") {
+                        showToast("Sharing isn't available right now.");
+                    }
+                }
+            } else {
+                await copyCurrentQuote();
+                showToast("Sharing isn't supported here, so the quote was copied.");
+            }
         }
 
 
@@ -1714,34 +3406,15 @@
              * Let the loader breathe for a moment.
              */
             window.setTimeout(() => {
-                currentIndex =
-                    getRandomIndex();
-
-                const selected =
-                    quotes[currentIndex];
-
-                enEl.textContent =
-                    selected.en;
-
-                faEl.textContent =
-                    selected.fa;
-
-
-                /*
-                 * Hide loader first.
-                 */
+                displayQuote(getRandomIndex());
                 setLoadingState(false);
 
-
-                /*
-                 * Then animate the quote in.
-                 */
                 window.requestAnimationFrame(() => {
                     enEl.classList.add("show");
                     faEl.classList.add("show");
                 });
 
-            }, 650);
+            }, 300);
         }
 
 
@@ -1750,99 +3423,58 @@
         --------------------------------------------------------- */
 
         function toggleTheme() {
-            const isDark =
-                document.body.classList.toggle(
-                    "dark-mode"
-                );
-
-            try {
-                localStorage.setItem(
-                    "daily-motivation-theme",
-                    isDark
-                        ? "dark"
-                        : "light"
-                );
-            } catch (error) {
-                /*
-                 * Storage may be unavailable
-                 * in private/restricted contexts.
-                 */
-            }
+            const currentlyDark = document.body.classList.contains("dark-mode");
+            settings.theme = currentlyDark ? "light" : "dark";
+            saveSettings();
+            applySettings();
         }
 
-
-        function restoreTheme() {
-            try {
-                const savedTheme =
-                    localStorage.getItem(
-                        "daily-motivation-theme"
-                    );
-
-                if (savedTheme === "dark") {
-                    document.body.classList.add(
-                        "dark-mode"
-                    );
-                }
-
-                if (savedTheme === "light") {
-                    document.body.classList.remove(
-                        "dark-mode"
-                    );
-                }
-
-            } catch (error) {
-                /*
-                 * Ignore storage errors.
-                 */
-            }
-        }
 
 
         /* ---------------------------------------------------------
            KEYBOARD
         --------------------------------------------------------- */
 
-        document.addEventListener(
-            "keydown",
-            (event) => {
-                if (event.code !== "Space") {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                if (!settingsBackdrop.hidden) {
+                    closeSettings();
                     return;
                 }
-
-                const activeElement =
-                    document.activeElement;
-
-                if (
-                    activeElement &&
-                    (
-                        activeElement.tagName === "INPUT" ||
-                        activeElement.tagName === "TEXTAREA" ||
-                        activeElement.tagName === "SELECT"
-                    )
-                ) {
+                if (!favoritesBackdrop.hidden) {
+                    closeFavorites();
                     return;
                 }
-
-                event.preventDefault();
-
-                if (isLoading) {
-                    return;
-                }
-
-                const rect =
-                    mainButton.getBoundingClientRect();
-
-                changeQuotes({
-                    clientX:
-                        rect.left +
-                        rect.width / 2,
-
-                    clientY:
-                        rect.top +
-                        rect.height / 2
-                });
             }
-        );
+
+            if (!settingsBackdrop.hidden) {
+                trapDialogFocus(event, settingsDialog);
+                return;
+            }
+            if (!favoritesBackdrop.hidden) {
+                trapDialogFocus(event, favoritesDialog);
+                return;
+            }
+
+            if (!settings.keyboardShortcuts || event.code !== "Space" || event.repeat) return;
+
+            const activeElement = document.activeElement;
+            const isInteractive = activeElement && activeElement.closest(
+                "button, a, input, textarea, select, [contenteditable='true'], [role='button'], [role='switch']"
+            );
+
+            // Let focused controls keep their native Space behavior.
+            if (isInteractive) return;
+
+            event.preventDefault();
+            if (isLoading) return;
+
+            const rect = mainButton.getBoundingClientRect();
+            changeQuotes({
+                clientX: rect.left + rect.width / 2,
+                clientY: rect.top + rect.height / 2
+            });
+        });
 
 
         /* ---------------------------------------------------------
@@ -1985,10 +3617,7 @@
                 this.speedY =
                     (Math.random() - 0.5) * 8 - 2;
 
-                this.color =
-                    `hsl(${
-                        Math.random() * 60 + 240
-                    }, 80%, 65%)`;
+                this.color = getAccentColor();
 
                 this.alpha = 1;
 
@@ -2038,6 +3667,14 @@
         let particles = [];
 
 
+        function getAccentColor() {
+            const value = getComputedStyle(document.body)
+                .getPropertyValue("--selection-bg")
+                .trim();
+            return value || "#8b5cf6";
+        }
+
+
         function createParticles(x, y) {
 
             const mobile =
@@ -2051,106 +3688,161 @@
                     : 24;
 
 
-            for (
-                let i = 0;
-                i < count;
-                i++
-            ) {
-                particles.push(
-                    new Particle(x, y)
-                );
+            if (!settings.particleEffects || reducedMotion || document.hidden) {
+                return;
             }
 
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y));
+            }
 
-            /*
-             * Prevent an accidental
-             * particle buildup.
-             */
+            // Prevent an accidental particle buildup.
             if (particles.length > 120) {
-                particles =
-                    particles.slice(-120);
+                particles = particles.slice(-120);
             }
+
+            startParticleAnimation();
+        }
+
+
+        function startParticleAnimation() {
+            if (
+                !settings.particleEffects ||
+                reducedMotion ||
+                document.hidden ||
+                particleAnimationId !== null ||
+                particles.length === 0
+            ) {
+                return;
+            }
+
+            particleAnimationId = requestAnimationFrame(animateParticles);
         }
 
 
         function animateParticles() {
+            particleAnimationId = null;
 
-            ctx.clearRect(
-                0,
-                0,
-                window.innerWidth,
-                window.innerHeight
-            );
+            if (document.hidden || reducedMotion) {
+                return;
+            }
 
-
-            particles =
-                particles.filter(
-                    (particle) =>
-                        particle.alpha > 0
-                );
-
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
             for (const particle of particles) {
                 particle.update();
                 particle.draw();
             }
 
+            particles = particles.filter(
+                (particle) => particle.alpha > 0
+            );
 
-            particleAnimationId =
-                requestAnimationFrame(
-                    animateParticles
-                );
+            if (particles.length > 0) {
+                particleAnimationId = requestAnimationFrame(animateParticles);
+            }
         }
+
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                if (particleAnimationId !== null) {
+                    cancelAnimationFrame(particleAnimationId);
+                    particleAnimationId = null;
+                }
+
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            } else {
+                startParticleAnimation();
+            }
+        });
 
 
         /* ---------------------------------------------------------
            INITIALIZE
         --------------------------------------------------------- */
 
-        restoreTheme();
+        applySettings();
 
+        // Keep the System theme in sync if the operating system changes.
+        const systemThemePreference = window.matchMedia("(prefers-color-scheme: dark)");
+        systemThemePreference.addEventListener?.("change", () => {
+            if (settings.theme === "system") applySettings();
+        });
 
-        const reducedMotion =
-            window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches;
+        // Quote actions and the saved library.
+        favoriteButton.addEventListener("click", toggleFavorite);
+        document.getElementById("copy-btn").addEventListener("click", copyCurrentQuote);
+        document.getElementById("share-btn").addEventListener("click", shareCurrentQuote);
+        favoritesOpenButton.addEventListener("click", openFavorites);
+        favoritesCloseButton.addEventListener("click", closeFavorites);
+        favoritesClearButton.addEventListener("click", clearFavorites);
+        favoritesSearchInput.addEventListener("input", () => {
+            favoritesSearch = favoritesSearchInput.value;
+            renderFavorites();
+            favoritesSearchInput.focus();
+        });
+        favoritesSortSelect.addEventListener("change", () => {
+            favoritesSort = favoritesSortSelect.value;
+            renderFavorites();
+        });
 
+        favoritesBackdrop.addEventListener("click", (event) => {
+            if (event.target === favoritesBackdrop) closeFavorites();
+        });
 
-        if (!reducedMotion) {
-            animateParticles();
-        }
+        // Settings panel.
+        themeButton.addEventListener("click", toggleTheme);
+        settingsOpenButton.addEventListener("click", openSettings);
+        settingsCloseButton.addEventListener("click", closeSettings);
+        settingsBackdrop.addEventListener("click", (event) => {
+            if (event.target === settingsBackdrop) closeSettings();
+        });
 
+        document.getElementById("theme-options").addEventListener("click", (event) => {
+            const option = event.target.closest("[data-theme]");
+            if (!option) return;
+            updateSetting("theme", option.dataset.theme);
+        });
 
-        /*
-         * Initial loading state.
-         * The page opens with the orbital loader,
-         * then displays the first quote.
-         */
+        document.getElementById("accent-options").addEventListener("click", (event) => {
+            const option = event.target.closest("[data-accent]");
+            if (!option) return;
+            updateSetting("accent", option.dataset.accent);
+        });
+
+        document.getElementById("language-options").addEventListener("click", (event) => {
+            const option = event.target.closest("[data-language]");
+            if (!option) return;
+            updateSetting("quoteLanguage", option.dataset.language);
+            renderFavorites();
+        });
+
+        document.getElementById("setting-daily-quote").addEventListener("click", () => {
+            updateSetting("dailyQuoteOnStart", !settings.dailyQuoteOnStart);
+        });
+        document.getElementById("setting-particles").addEventListener("click", () => {
+            updateSetting("particleEffects", !settings.particleEffects);
+        });
+        document.getElementById("setting-shortcuts").addEventListener("click", () => {
+            updateSetting("keyboardShortcuts", !settings.keyboardShortcuts);
+        });
+        document.getElementById("reset-settings-btn").addEventListener("click", restoreDefaultSettings);
+        document.getElementById("export-favorites-btn").addEventListener("click", exportFavorites);
+
+        // Open with the daily quote by default, or a random quote when disabled.
         setLoadingState(true);
-
-
+        dailyQuoteIndex = getDailyQuoteIndex();
         window.setTimeout(() => {
-            currentIndex =
-                getRandomIndex();
-
-            const selected =
-                quotes[currentIndex];
-
-            enEl.textContent =
-                selected.en;
-
-            faEl.textContent =
-                selected.fa;
-
+            const startingIndex = settings.dailyQuoteOnStart
+                ? dailyQuoteIndex
+                : getRandomIndex();
+            displayQuote(startingIndex);
             setLoadingState(false);
+        }, 280);
 
-            window.requestAnimationFrame(() => {
-                enEl.classList.add("show");
-                faEl.classList.add("show");
-            });
-
-        }, 900);
-
+        renderFavorites();
+        updateFavoriteButton();
     </script>
 
 </body>

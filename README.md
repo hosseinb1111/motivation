@@ -1,38 +1,33 @@
-# Motivation website
-# ✨ Trying to Motivate You
+# Daily Motivation ✨
 
-> "All our dreams can come true if we have the courage to pursue them."
-> This is a minimalist, beautiful dual-language web application designed to spark inspiration, build momentum, and keep you moving forward—one quote at a time.
+A lightweight English and Persian motivational quote website. It pairs a responsive, animated interface with a personal saved-quotes library and settings that stay on the device.
 
----
+## Features
 
-## 🚀 Why This Exists
+- **Daily quote:** Start with one quote that stays consistent for the local calendar day, or choose a random opening quote in Settings.
+- **Random inspiration:** Generate another quote whenever you like. The Spacebar shortcut can be enabled or disabled.
+- **Saved quote library:** Save favorites, search your collection, sort it, open a saved quote, copy it, or remove it. You can also export the collection as a text file.
+- **Copy and share:** Copy the currently displayed language selection or use the device's native share sheet when supported.
+- **Personalized appearance:** Choose System, Light, or Dark theme and select Violet, Ocean, Rose, or Emerald accents.
+- **Language display:** Show English only, Persian only, or both languages together.
+- **Effects:** Turn particle effects on or off. The app also respects the operating system's reduced-motion preference.
+- **Responsive design:** The quote experience, Saved library, and Settings panel adapt to desktop and mobile screens.
 
-In the middle of a busy day, a long coding session, or a moment of doubt, we all need a gentle push. This application serves as a dedicated digital sanctuary to remind you of your potential.
+## Run locally
 
-Whether you are looking for a quick boost in English or seeking the deep, poetic resonance of Persian wisdom, this site delivers beautifully typeset motivation directly to your screen.
+1. Download or clone this repository.
+2. Open `index.html` in a modern browser.
+3. Use the top-right controls to switch the theme or open Settings.
+4. Save a quote with the heart button and open **Saved** to search or revisit it.
 
----
+No build step, framework, backend, or API key is required. Favorites and preferences are stored in the browser's `localStorage`, so they are not automatically synchronized across devices.
 
-## 🌟 Key Features
+## Project structure
 
-* **Dual-Language Inspiration:** Synchronized, high-quality motivational quotes in both **English** and **Persian (فارسی)**.
-* **Modern Typography:** Elegant, pixel-perfect rendering using **Inter** (for English) and **Vazirmatn** (for Persian) to ensure maximum readability and aesthetic appeal.
-* **Glassmorphic Design:** A sleek, modern user interface featuring soft gradients, blur effects, and responsive card styling.
-* **Seamless Theme Toggling:** Easily switch between a clean Light Mode and a comforting Dark Mode that is gentle on your eyes during late-night grinds.
-* **Fluid Transitions:** Enjoy smooth, animated fade-ins every time you click **"Change the Text"**—no jarring flashes.
+- `index.html` contains the application, styles, quote collection, and client-side behavior.
+- `site.webmanifest` contains the installable web app metadata.
+- The remaining image files are the app icons.
 
----
+## License
 
-## 🛠️ How It Works
-
-1. **Open** the `index.html` file in any modern web browser.
-2. **Click** the 🌓 button in the top-right corner to adjust the environment to your vibe (Light or Dark).
-3. **Press** the "Change the Text" button to cycle through over 100 hand-picked, empowering quotes.
-4. **Take a deep breath, believe in yourself, and get back to making things happen.** ✌🏻🙌
-
----
-
-## 💡 The Philosophy
-
-If you want to achieve greatness, the recipe is simple: **work hard, stay consistent, and never give up on your vision.** This tool is here to remind you of that every single day.
+See [LICENSE](LICENSE).
